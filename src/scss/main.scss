@@ -1,0 +1,76 @@
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.auth-background {
+  background: url("./../assets/images/background.png") no-repeat fixed right top !important;
+  background-blend-mode: lighten;
+}
+
+.main-background {
+  background: url("./../assets/images/background.png") no-repeat fixed right top,
+  linear-gradient( 0deg, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.7))!important;
+  background-blend-mode: lighten;
+}
+
+.grad-btn {
+  background: #329d9c;
+  background: radial-gradient(at top left, #7be495 0%, #329d9c 100%);
+}
+
+.theme--light.v-stepper {
+  background: transparent !important;
+}
+
+.p-relative {
+  position: relative;
+}
+
+.p-absolute {
+  position: absolute;
+}
+
+.h-100-p {
+  height: 100%;
+}
+
+// dashboard
+.dashboard .quarter_icon {
+  top: 0;
+  right: 0;
+  border-radius: 6px 20px 6px 6px;
+  background-color: #205072;
+  margin: 6px;
+  padding: 5px;
+
+  .v-icon {
+    margin: -1.5px 0;
+  }
+}
+
+// barcode configuration
+.margin_link {
+  width: 50%;
+  border: 2px solid black;
+  opacity: 54%;
+  border-right: none;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+}
+
+//barcode layout
+.v-input__slider .v-messages {
+  display: none;
+}
+
+@page {
+  size: 100px 100px;
+}
