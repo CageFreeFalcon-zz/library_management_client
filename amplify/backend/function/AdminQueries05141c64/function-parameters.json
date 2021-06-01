@@ -1,0 +1,9 @@
+{
+  "lambdaLayers": [
+    {
+      "type": "ProjectLayer",
+      "resourceName": "adminqueriesmodules",
+      "version": 1
+    }
+  ]
+}

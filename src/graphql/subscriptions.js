@@ -5,11 +5,11 @@ export const onCreateUserNotification = /* GraphQL */ `
   subscription OnCreateUserNotification {
     onCreateUserNotification {
       id
-      userID
       title
       subtitle
       content
       img_path
+      userna
       _version
       _deleted
       _lastChangedAt
@@ -22,11 +22,11 @@ export const onUpdateUserNotification = /* GraphQL */ `
   subscription OnUpdateUserNotification {
     onUpdateUserNotification {
       id
-      userID
       title
       subtitle
       content
       img_path
+      userna
       _version
       _deleted
       _lastChangedAt
@@ -39,11 +39,11 @@ export const onDeleteUserNotification = /* GraphQL */ `
   subscription OnDeleteUserNotification {
     onDeleteUserNotification {
       id
-      userID
       title
       subtitle
       content
       img_path
+      userna
       _version
       _deleted
       _lastChangedAt
@@ -52,6 +52,7 @@ export const onDeleteUserNotification = /* GraphQL */ `
     }
   }
 `;
+
 export const onCreateAdminNotification = /* GraphQL */ `
   subscription OnCreateAdminNotification {
     onCreateAdminNotification {
@@ -60,6 +61,7 @@ export const onCreateAdminNotification = /* GraphQL */ `
       title
       subtitle
       content
+      data
       _version
       _deleted
       _lastChangedAt
@@ -76,6 +78,7 @@ export const onUpdateAdminNotification = /* GraphQL */ `
       title
       subtitle
       content
+      data
       _version
       _deleted
       _lastChangedAt
@@ -92,6 +95,7 @@ export const onDeleteAdminNotification = /* GraphQL */ `
       title
       subtitle
       content
+      data
       _version
       _deleted
       _lastChangedAt
@@ -100,6 +104,7 @@ export const onDeleteAdminNotification = /* GraphQL */ `
     }
   }
 `;
+
 export const onCreateBook = /* GraphQL */ `
   subscription OnCreateBook {
     onCreateBook {
@@ -187,12 +192,12 @@ export const onDeleteBook = /* GraphQL */ `
     }
   }
 `;
+
 export const onCreateBookItem = /* GraphQL */ `
   subscription OnCreateBookItem {
     onCreateBookItem {
       id
       price
-      format
       status
       added_on
       rackID
@@ -214,7 +219,6 @@ export const onUpdateBookItem = /* GraphQL */ `
     onUpdateBookItem {
       id
       price
-      format
       status
       added_on
       rackID
@@ -236,7 +240,6 @@ export const onDeleteBookItem = /* GraphQL */ `
     onDeleteBookItem {
       id
       price
-      format
       status
       added_on
       rackID
@@ -253,6 +256,7 @@ export const onDeleteBookItem = /* GraphQL */ `
     }
   }
 `;
+
 export const onCreateRack = /* GraphQL */ `
   subscription OnCreateRack {
     onCreateRack {
@@ -310,6 +314,7 @@ export const onDeleteRack = /* GraphQL */ `
     }
   }
 `;
+
 export const onCreateAuthor = /* GraphQL */ `
   subscription OnCreateAuthor {
     onCreateAuthor {
@@ -364,6 +369,7 @@ export const onDeleteAuthor = /* GraphQL */ `
     }
   }
 `;
+
 export const onCreateBarcode = /* GraphQL */ `
   subscription OnCreateBarcode {
     onCreateBarcode {
@@ -460,6 +466,7 @@ export const onDeleteBarcode = /* GraphQL */ `
     }
   }
 `;
+
 export const onCreateCard = /* GraphQL */ `
   subscription OnCreateCard {
     onCreateCard {
@@ -468,7 +475,7 @@ export const onCreateCard = /* GraphQL */ `
       img_path
       status
       issued_on
-      userID
+      username
       _version
       _deleted
       _lastChangedAt
@@ -485,7 +492,7 @@ export const onUpdateCard = /* GraphQL */ `
       img_path
       status
       issued_on
-      userID
+      username
       _version
       _deleted
       _lastChangedAt
@@ -502,7 +509,7 @@ export const onDeleteCard = /* GraphQL */ `
       img_path
       status
       issued_on
-      userID
+      username
       _version
       _deleted
       _lastChangedAt
@@ -511,6 +518,7 @@ export const onDeleteCard = /* GraphQL */ `
     }
   }
 `;
+
 export const onCreateTransaction = /* GraphQL */ `
   subscription OnCreateTransaction {
     onCreateTransaction {
@@ -518,8 +526,8 @@ export const onCreateTransaction = /* GraphQL */ `
       issue_date
       due_date
       status
-      userID
       bookitemID
+      Username
       _version
       _deleted
       _lastChangedAt
@@ -535,8 +543,8 @@ export const onUpdateTransaction = /* GraphQL */ `
       issue_date
       due_date
       status
-      userID
       bookitemID
+      Username
       _version
       _deleted
       _lastChangedAt
@@ -552,8 +560,8 @@ export const onDeleteTransaction = /* GraphQL */ `
       issue_date
       due_date
       status
-      userID
       bookitemID
+      Username
       _version
       _deleted
       _lastChangedAt
@@ -562,117 +570,7 @@ export const onDeleteTransaction = /* GraphQL */ `
     }
   }
 `;
-export const onCreateUser = /* GraphQL */ `
-  subscription OnCreateUser {
-    onCreateUser {
-      id
-      username
-      email
-      phone
-      course
-      department
-      year
-      f_name
-      dob
-      address
-      city
-      pincode
-      dp_path
-      status
-      _version
-      _deleted
-      _lastChangedAt
-      createdAt
-      updatedAt
-      UserNotifications {
-        nextToken
-        startedAt
-      }
-      Cards {
-        nextToken
-        startedAt
-      }
-      Transactions {
-        nextToken
-        startedAt
-      }
-    }
-  }
-`;
-export const onUpdateUser = /* GraphQL */ `
-  subscription OnUpdateUser {
-    onUpdateUser {
-      id
-      username
-      email
-      phone
-      course
-      department
-      year
-      f_name
-      dob
-      address
-      city
-      pincode
-      dp_path
-      status
-      _version
-      _deleted
-      _lastChangedAt
-      createdAt
-      updatedAt
-      UserNotifications {
-        nextToken
-        startedAt
-      }
-      Cards {
-        nextToken
-        startedAt
-      }
-      Transactions {
-        nextToken
-        startedAt
-      }
-    }
-  }
-`;
-export const onDeleteUser = /* GraphQL */ `
-  subscription OnDeleteUser {
-    onDeleteUser {
-      id
-      username
-      email
-      phone
-      course
-      department
-      year
-      f_name
-      dob
-      address
-      city
-      pincode
-      dp_path
-      status
-      _version
-      _deleted
-      _lastChangedAt
-      createdAt
-      updatedAt
-      UserNotifications {
-        nextToken
-        startedAt
-      }
-      Cards {
-        nextToken
-        startedAt
-      }
-      Transactions {
-        nextToken
-        startedAt
-      }
-    }
-  }
-`;
+
 export const onCreateBookAuthor = /* GraphQL */ `
   subscription OnCreateBookAuthor {
     onCreateBookAuthor {

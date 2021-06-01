@@ -13,7 +13,91 @@
     },
     "categories": {
       "auth": {
-        "librarymanagement29332672": {}
+        "librarymanagement29332672": {},
+        "librarymanagement": {},
+        "librarymanagement6e08d28c6e08d28c": {},
+        "userPoolGroups": {}
+      },
+      "function": {
+        "AdminQueries05141c64": {
+          "deploymentBucketName": "amplify-librarymanagement-dev-122946-deployment",
+          "s3Key": "amplify-builds/AdminQueries05141c64-2b573631476341773967-build.zip"
+        },
+        "librarymanagement6e08d28c6e08d28cPostConfirmation": {
+          "deploymentBucketName": "amplify-librarymanagement-dev-122946-deployment",
+          "s3Key": "amplify-builds/librarymanagement6e08d28c6e08d28cPostConfirmation-673939746737655a7139-build.zip"
+        },
+        "CreateLibraryCard": {
+          "deploymentBucketName": "amplify-librarymanagement-dev-122946-deployment",
+          "s3Key": "amplify-builds/CreateLibraryCard-54702f5a5758656c5870-build.zip"
+        },
+        "adminqueriesmodules": {
+          "deploymentBucketName": "amplify-librarymanagement-dev-122946-deployment",
+          "s3Key": "amplify-builds/adminqueriesmodules-build.zip"
+        },
+        "CreateLC": {
+          "deploymentBucketName": "amplify-librarymanagement-dev-122946-deployment",
+          "s3Key": "amplify-builds/CreateLC-3677582f772f32566b64-build.zip"
+        },
+        "s3ClientModule": {
+          "deploymentBucketName": "amplify-librarymanagement-dev-122946-deployment",
+          "s3Key": "amplify-builds/s3ClientModule-build.zip"
+        },
+        "qrCodeModule": {
+          "deploymentBucketName": "amplify-librarymanagement-dev-122946-deployment",
+          "s3Key": "amplify-builds/qrCodeModule-build.zip"
+        }
+      }
+    },
+    "nonCFNdata": {
+      "function": {
+        "lmsaqmodules": {
+          "layerVersionMap": {
+            "1": {
+              "permissions": [
+                {
+                  "type": "private"
+                }
+              ]
+            }
+          }
+        },
+        "adminqueriesmodules": {
+          "layerVersionMap": {
+            "1": {
+              "permissions": [
+                {
+                  "type": "private"
+                }
+              ],
+              "hash": "mfTKV71PU6xp/F4jNbVaaB/eFjTPQ4hD0KLaVNt5kM0="
+            }
+          }
+        },
+        "s3ClientModule": {
+          "layerVersionMap": {
+            "1": {
+              "permissions": [
+                {
+                  "type": "private"
+                }
+              ],
+              "hash": "Yra2LVvV8ISBOB5vCDTfXpBuZcRNkw+1Wwgf7IqtTjo="
+            }
+          }
+        },
+        "qrCodeModule": {
+          "layerVersionMap": {
+            "1": {
+              "permissions": [
+                {
+                  "type": "private"
+                }
+              ],
+              "hash": "G1MWtQFwd0u+a/i+6tg+pG1sKENxeWS7vL8TvRMxEyk="
+            }
+          }
+        }
       }
     }
   }

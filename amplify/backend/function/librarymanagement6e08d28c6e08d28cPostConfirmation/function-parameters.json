@@ -1,0 +1,18 @@
+{
+  "trigger": true,
+  "modules": [
+    "add-to-group"
+  ],
+  "parentResource": "librarymanagement6e08d28c6e08d28c",
+  "functionName": "librarymanagement6e08d28c6e08d28cPostConfirmation",
+  "resourceName": "librarymanagement6e08d28c6e08d28cPostConfirmation",
+  "parentStack": "auth",
+  "triggerEnvs": [],
+  "triggerDir": "C:\\Users\\rakes\\AppData\\Roaming\\npm\\node_modules\\@aws-amplify\\cli\\node_modules\\amplify-category-auth\\provider-utils\\awscloudformation\\triggers\\PostConfirmation",
+  "triggerTemplate": "PostConfirmation.json.ejs",
+  "triggerEventPath": "PostConfirmation.event.json",
+  "roleName": "librarymanagement6e08d28c6e08d28cPostConfirmation",
+  "skipEdit": true,
+  "GROUP": "requests",
+  "enableCors": false
+}

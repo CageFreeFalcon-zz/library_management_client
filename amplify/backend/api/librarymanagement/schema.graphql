@@ -1,10 +1,10 @@
-type UserNotification @model @auth(rules: [{allow: public}]) @key(name: "byUser", fields: ["userID"]) {
+type UserNotification @model @auth(rules: [{allow: public}]) {
   id: ID!
-  userID: ID!
   title: String
   subtitle: String
   content: AWSJSON
   img_path: AWSURL
+  userna: String
 }
 
 type AdminNotification @model @auth(rules: [{allow: public}]) {
@@ -12,7 +12,8 @@ type AdminNotification @model @auth(rules: [{allow: public}]) {
   type: String
   title: String
   subtitle: String
-  content: AWSJSON
+  content: String
+  data: AWSJSON
 }
 
 type Book @model @auth(rules: [{allow: public}]) {
@@ -33,7 +34,6 @@ type Book @model @auth(rules: [{allow: public}]) {
 type BookItem @model @auth(rules: [{allow: public}]) @key(name: "byRack", fields: ["rackID"]) @key(name: "byBook", fields: ["bookID"]) {
   id: ID!
   price: Int!
-  format: Book_Format!
   status: Book_Status!
   added_on: AWSDate!
   rackID: ID!
@@ -64,42 +64,22 @@ type Barcode @model @auth(rules: [{allow: public}]) {
   Book: Book @connection
 }
 
-type Card @model @auth(rules: [{allow: public}]) @key(name: "byUser", fields: ["userID"]) {
+type Card @model @auth(rules: [{allow: public}]) {
   id: ID!
   card_number: Int!
   img_path: AWSURL!
   status: Card_Status!
   issued_on: AWSDate!
-  userID: ID
+  username: String
 }
 
-type Transaction @model @auth(rules: [{allow: public}]) @key(name: "byUser", fields: ["userID"]) @key(name: "byBookItem", fields: ["bookitemID"]) {
+type Transaction @model @auth(rules: [{allow: public}]) @key(name: "byBookItem", fields: ["bookitemID"]) {
   id: ID!
   issue_date: AWSDate!
   due_date: AWSDate!
   status: String!
-  userID: ID!
   bookitemID: ID!
-}
-
-type User @model @auth(rules: [{allow: public}]) {
-  id: ID!
-  username: String!
-  email: AWSEmail!
-  phone: AWSPhone!
-  course: Course!
-  department: Department!
-  year: Year!
-  f_name: String!
-  dob: AWSDate!
-  address: String!
-  city: String!
-  pincode: Int!
-  dp_path: AWSURL
-  status: User_Status!
-  Transactions: [Transaction] @connection(keyName: "byUser", fields: ["id"])
-  UserNotifications: [UserNotification] @connection(keyName: "byUser", fields: ["id"])
-  Cards: [Card] @connection(keyName: "byUser", fields: ["id"])
+  Username: String
 }
 
 enum Book_Status {
@@ -108,46 +88,14 @@ enum Book_Status {
   LOST
 }
 
-enum Course {
-  BTECH
-  DIPLOMA
-}
-
-enum Year {
-  FIRST
-  SECOND
-  THIRD
-  FOURTH
-}
-
-enum User_Status {
-  UNAPPROVED
-  APPROVED
-  SUSPENDED
-}
-
-enum Department {
-  CSE
-  ME
-  CE
-  EE
-  ECE
-}
-
 enum Card_Status {
   ISSUED
-  UNISSUED
   DEPRICATED
 }
 
 enum Barcode_status {
   USED
   UNUSED
-}
-
-enum Book_Format {
-  HARDCOVER
-  PAPPERBACK
 }
 
 type BookAuthor @model(queries: null) @key(name: "byBook", fields: ["bookID", "authorID"]) @key(name: "byAuthor", fields: ["authorID", "bookID"]) @auth(rules: [{allow: public}, {allow: public}]) {

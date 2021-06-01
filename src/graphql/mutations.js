@@ -8,11 +8,11 @@ export const createUserNotification = /* GraphQL */ `
   ) {
     createUserNotification(input: $input, condition: $condition) {
       id
-      userID
       title
       subtitle
       content
       img_path
+      userna
       _version
       _deleted
       _lastChangedAt
@@ -28,11 +28,11 @@ export const updateUserNotification = /* GraphQL */ `
   ) {
     updateUserNotification(input: $input, condition: $condition) {
       id
-      userID
       title
       subtitle
       content
       img_path
+      userna
       _version
       _deleted
       _lastChangedAt
@@ -48,11 +48,11 @@ export const deleteUserNotification = /* GraphQL */ `
   ) {
     deleteUserNotification(input: $input, condition: $condition) {
       id
-      userID
       title
       subtitle
       content
       img_path
+      userna
       _version
       _deleted
       _lastChangedAt
@@ -61,6 +61,7 @@ export const deleteUserNotification = /* GraphQL */ `
     }
   }
 `;
+
 export const createAdminNotification = /* GraphQL */ `
   mutation CreateAdminNotification(
     $input: CreateAdminNotificationInput!
@@ -72,6 +73,7 @@ export const createAdminNotification = /* GraphQL */ `
       title
       subtitle
       content
+      data
       _version
       _deleted
       _lastChangedAt
@@ -91,6 +93,7 @@ export const updateAdminNotification = /* GraphQL */ `
       title
       subtitle
       content
+      data
       _version
       _deleted
       _lastChangedAt
@@ -110,6 +113,7 @@ export const deleteAdminNotification = /* GraphQL */ `
       title
       subtitle
       content
+      data
       _version
       _deleted
       _lastChangedAt
@@ -118,6 +122,7 @@ export const deleteAdminNotification = /* GraphQL */ `
     }
   }
 `;
+
 export const createBook = /* GraphQL */ `
   mutation CreateBook(
     $input: CreateBookInput!
@@ -214,6 +219,7 @@ export const deleteBook = /* GraphQL */ `
     }
   }
 `;
+
 export const createBookItem = /* GraphQL */ `
   mutation CreateBookItem(
     $input: CreateBookItemInput!
@@ -222,7 +228,6 @@ export const createBookItem = /* GraphQL */ `
     createBookItem(input: $input, condition: $condition) {
       id
       price
-      format
       status
       added_on
       rackID
@@ -247,7 +252,6 @@ export const updateBookItem = /* GraphQL */ `
     updateBookItem(input: $input, condition: $condition) {
       id
       price
-      format
       status
       added_on
       rackID
@@ -272,7 +276,6 @@ export const deleteBookItem = /* GraphQL */ `
     deleteBookItem(input: $input, condition: $condition) {
       id
       price
-      format
       status
       added_on
       rackID
@@ -289,6 +292,7 @@ export const deleteBookItem = /* GraphQL */ `
     }
   }
 `;
+
 export const createRack = /* GraphQL */ `
   mutation CreateRack(
     $input: CreateRackInput!
@@ -355,6 +359,7 @@ export const deleteRack = /* GraphQL */ `
     }
   }
 `;
+
 export const createAuthor = /* GraphQL */ `
   mutation CreateAuthor(
     $input: CreateAuthorInput!
@@ -418,6 +423,7 @@ export const deleteAuthor = /* GraphQL */ `
     }
   }
 `;
+
 export const createBarcode = /* GraphQL */ `
   mutation CreateBarcode(
     $input: CreateBarcodeInput!
@@ -523,6 +529,7 @@ export const deleteBarcode = /* GraphQL */ `
     }
   }
 `;
+
 export const createCard = /* GraphQL */ `
   mutation CreateCard(
     $input: CreateCardInput!
@@ -534,7 +541,7 @@ export const createCard = /* GraphQL */ `
       img_path
       status
       issued_on
-      userID
+      username
       _version
       _deleted
       _lastChangedAt
@@ -554,7 +561,7 @@ export const updateCard = /* GraphQL */ `
       img_path
       status
       issued_on
-      userID
+      username
       _version
       _deleted
       _lastChangedAt
@@ -574,7 +581,7 @@ export const deleteCard = /* GraphQL */ `
       img_path
       status
       issued_on
-      userID
+      username
       _version
       _deleted
       _lastChangedAt
@@ -583,6 +590,7 @@ export const deleteCard = /* GraphQL */ `
     }
   }
 `;
+
 export const createTransaction = /* GraphQL */ `
   mutation CreateTransaction(
     $input: CreateTransactionInput!
@@ -593,8 +601,8 @@ export const createTransaction = /* GraphQL */ `
       issue_date
       due_date
       status
-      userID
       bookitemID
+      Username
       _version
       _deleted
       _lastChangedAt
@@ -613,8 +621,8 @@ export const updateTransaction = /* GraphQL */ `
       issue_date
       due_date
       status
-      userID
       bookitemID
+      Username
       _version
       _deleted
       _lastChangedAt
@@ -633,8 +641,8 @@ export const deleteTransaction = /* GraphQL */ `
       issue_date
       due_date
       status
-      userID
       bookitemID
+      Username
       _version
       _deleted
       _lastChangedAt
@@ -643,126 +651,7 @@ export const deleteTransaction = /* GraphQL */ `
     }
   }
 `;
-export const createUser = /* GraphQL */ `
-  mutation CreateUser(
-    $input: CreateUserInput!
-    $condition: ModelUserConditionInput
-  ) {
-    createUser(input: $input, condition: $condition) {
-      id
-      username
-      email
-      phone
-      course
-      department
-      year
-      f_name
-      dob
-      address
-      city
-      pincode
-      dp_path
-      status
-      _version
-      _deleted
-      _lastChangedAt
-      createdAt
-      updatedAt
-      UserNotifications {
-        nextToken
-        startedAt
-      }
-      Cards {
-        nextToken
-        startedAt
-      }
-      Transactions {
-        nextToken
-        startedAt
-      }
-    }
-  }
-`;
-export const updateUser = /* GraphQL */ `
-  mutation UpdateUser(
-    $input: UpdateUserInput!
-    $condition: ModelUserConditionInput
-  ) {
-    updateUser(input: $input, condition: $condition) {
-      id
-      username
-      email
-      phone
-      course
-      department
-      year
-      f_name
-      dob
-      address
-      city
-      pincode
-      dp_path
-      status
-      _version
-      _deleted
-      _lastChangedAt
-      createdAt
-      updatedAt
-      UserNotifications {
-        nextToken
-        startedAt
-      }
-      Cards {
-        nextToken
-        startedAt
-      }
-      Transactions {
-        nextToken
-        startedAt
-      }
-    }
-  }
-`;
-export const deleteUser = /* GraphQL */ `
-  mutation DeleteUser(
-    $input: DeleteUserInput!
-    $condition: ModelUserConditionInput
-  ) {
-    deleteUser(input: $input, condition: $condition) {
-      id
-      username
-      email
-      phone
-      course
-      department
-      year
-      f_name
-      dob
-      address
-      city
-      pincode
-      dp_path
-      status
-      _version
-      _deleted
-      _lastChangedAt
-      createdAt
-      updatedAt
-      UserNotifications {
-        nextToken
-        startedAt
-      }
-      Cards {
-        nextToken
-        startedAt
-      }
-      Transactions {
-        nextToken
-        startedAt
-      }
-    }
-  }
-`;
+
 export const createBookAuthor = /* GraphQL */ `
   mutation CreateBookAuthor(
     $input: CreateBookAuthorInput!

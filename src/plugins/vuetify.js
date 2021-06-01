@@ -54,6 +54,7 @@ export default new Vuetify({
         info: "#47cacc",
         success: "#7be495",
         warning: "#ffcf5c",
+        // est: "#82ba90",
       },
     },
   },

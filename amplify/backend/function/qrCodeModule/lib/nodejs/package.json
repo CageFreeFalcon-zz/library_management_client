@@ -1,0 +1,9 @@
+{
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "qrcode": "^1.4.4"
+  },
+  "devDependencies": {}
+}

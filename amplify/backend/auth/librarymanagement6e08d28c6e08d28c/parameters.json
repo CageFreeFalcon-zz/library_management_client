@@ -1,0 +1,95 @@
+{
+  "identityPoolName": "librarymanagement6e08d28c6e08d28c_identitypool_3180417f",
+  "allowUnauthenticatedIdentities": true,
+  "resourceNameTruncated": "librar6e08d28c",
+  "userPoolName": "librarymanagement6e08d28c_userpool_6e08d28c",
+  "autoVerifiedAttributes": [
+    "email"
+  ],
+  "mfaConfiguration": "OFF",
+  "mfaTypes": [
+    "SMS Text Message"
+  ],
+  "smsAuthenticationMessage": "Your authentication code is {####}",
+  "smsVerificationMessage": "Your verification code is {####}",
+  "emailVerificationSubject": "Your verification code",
+  "emailVerificationMessage": "Your verification code is {####}",
+  "defaultPasswordPolicy": true,
+  "passwordPolicyMinLength": 8,
+  "passwordPolicyCharacters": [],
+  "requiredAttributes": [
+    "email"
+  ],
+  "userpoolClientGenerateSecret": false,
+  "userpoolClientRefreshTokenValidity": 30,
+  "userpoolClientWriteAttributes": [
+    "address",
+    "birthdate",
+    "family_name",
+    "name",
+    "phone_number",
+    "picture",
+    "email"
+  ],
+  "userpoolClientReadAttributes": [
+    "address",
+    "birthdate",
+    "email",
+    "family_name",
+    "name",
+    "phone_number",
+    "picture",
+    "email_verified",
+    "phone_number_verified"
+  ],
+  "userpoolClientLambdaRole": "librar6e08d28c_userpoolclient_lambda_role",
+  "userpoolClientSetAttributes": true,
+  "sharedId": "6e08d28c",
+  "resourceName": "librarymanagement6e08d28c6e08d28c",
+  "authSelections": "identityPoolAndUserPool",
+  "authRoleArn": {
+    "Fn::GetAtt": [
+      "AuthRole",
+      "Arn"
+    ]
+  },
+  "unauthRoleArn": {
+    "Fn::GetAtt": [
+      "UnauthRole",
+      "Arn"
+    ]
+  },
+  "useDefault": "manual",
+  "usernameAttributes": [
+    "email"
+  ],
+  "userPoolGroups": true,
+  "adminQueries": true,
+  "triggers": "{\n  \"PostConfirmation\": [\n    \"add-to-group\"\n  ]\n}",
+  "hostedUI": false,
+  "userPoolGroupList": [
+    "librarians",
+    "students",
+    "requests"
+  ],
+  "adminQueryGroup": "librarians",
+  "serviceName": "Cognito",
+  "parentStack": {
+    "Ref": "AWS::StackId"
+  },
+  "permissions": [
+    "{\n  \"policyName\": \"AddToGroupCognito\",\n  \"trigger\": \"PostConfirmation\",\n  \"effect\": \"Allow\",\n  \"actions\": [\n    \"cognito-idp:AdminAddUserToGroup\",\n    \"cognito-idp:GetGroup\",\n    \"cognito-idp:CreateGroup\"\n  ],\n  \"resource\": {\n    \"paramType\": \"!GetAtt\",\n    \"keys\": [\n      \"UserPool\",\n      \"Arn\"\n    ]\n  }\n}"
+  ],
+  "dependsOn": [
+    {
+      "category": "function",
+      "resourceName": "librarymanagement6e08d28c6e08d28cPostConfirmation",
+      "triggerProvider": "Cognito",
+      "attributes": [
+        "Arn",
+        "Name"
+      ]
+    }
+  ],
+  "authProviders": []
+}

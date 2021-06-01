@@ -1,0 +1,19 @@
+{
+  "groupPermissionMap": {
+    "librarians": [
+      "create/update",
+      "read",
+      "delete"
+    ],
+    "students": [
+      "create/update",
+      "read",
+      "delete"
+    ],
+    "requests": [
+      "create/update",
+      "read",
+      "delete"
+    ]
+  }
+}

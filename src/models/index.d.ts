@@ -1,10 +1,5 @@
 import { ModelInit, MutableModel, PersistentModelConstructor } from "@aws-amplify/datastore";
 
-export enum BookFormat {
-  HARDCOVER = "HARDCOVER",
-  PAPPERBACK = "PAPPERBACK"
-}
-
 export enum BookStatus {
   ISSUED = "ISSUED",
   NOTISSUED = "NOTISSUED",
@@ -18,45 +13,18 @@ export enum BarcodeStatus {
 
 export enum CardStatus {
   ISSUED = "ISSUED",
-  UNISSUED = "UNISSUED",
   DEPRICATED = "DEPRICATED"
-}
-
-export enum Course {
-  BTECH = "BTECH",
-  DIPLOMA = "DIPLOMA"
-}
-
-export enum Department {
-  CSE = "CSE",
-  ME = "ME",
-  CE = "CE",
-  EE = "EE",
-  ECE = "ECE"
-}
-
-export enum Year {
-  FIRST = "FIRST",
-  SECOND = "SECOND",
-  THIRD = "THIRD",
-  FOURTH = "FOURTH"
-}
-
-export enum UserStatus {
-  UNAPPROVED = "UNAPPROVED",
-  APPROVED = "APPROVED",
-  SUSPENDED = "SUSPENDED"
 }
 
 
 
 export declare class UserNotification {
   readonly id: string;
-  readonly userID: string;
   readonly title?: string;
   readonly subtitle?: string;
   readonly content?: string;
   readonly img_path?: string;
+  readonly userna?: string;
   constructor(init: ModelInit<UserNotification>);
   static copyOf(source: UserNotification, mutator: (draft: MutableModel<UserNotification>) => MutableModel<UserNotification> | void): UserNotification;
 }
@@ -67,6 +35,7 @@ export declare class AdminNotification {
   readonly title?: string;
   readonly subtitle?: string;
   readonly content?: string;
+  readonly data?: string;
   constructor(init: ModelInit<AdminNotification>);
   static copyOf(source: AdminNotification, mutator: (draft: MutableModel<AdminNotification>) => MutableModel<AdminNotification> | void): AdminNotification;
 }
@@ -91,7 +60,6 @@ export declare class Book {
 export declare class BookItem {
   readonly id: string;
   readonly price: number;
-  readonly format: BookFormat | keyof typeof BookFormat;
   readonly status: BookStatus | keyof typeof BookStatus;
   readonly added_on: string;
   readonly rackID: string;
@@ -106,8 +74,8 @@ export declare class Transaction {
   readonly issue_date: string;
   readonly due_date: string;
   readonly status: string;
-  readonly userID: string;
   readonly bookitemID: string;
+  readonly Username?: string;
   constructor(init: ModelInit<Transaction>);
   static copyOf(source: Transaction, mutator: (draft: MutableModel<Transaction>) => MutableModel<Transaction> | void): Transaction;
 }
@@ -155,29 +123,7 @@ export declare class Card {
   readonly img_path: string;
   readonly status: CardStatus | keyof typeof CardStatus;
   readonly issued_on: string;
-  readonly userID?: string;
+  readonly username?: string;
   constructor(init: ModelInit<Card>);
   static copyOf(source: Card, mutator: (draft: MutableModel<Card>) => MutableModel<Card> | void): Card;
-}
-
-export declare class User {
-  readonly id: string;
-  readonly username: string;
-  readonly email: string;
-  readonly phone: string;
-  readonly course: Course | keyof typeof Course;
-  readonly department: Department | keyof typeof Department;
-  readonly year: Year | keyof typeof Year;
-  readonly f_name: string;
-  readonly dob: string;
-  readonly address: string;
-  readonly city: string;
-  readonly pincode: number;
-  readonly dp_path?: string;
-  readonly status: UserStatus | keyof typeof UserStatus;
-  readonly Transactions?: (Transaction | null)[];
-  readonly UserNotifications?: (UserNotification | null)[];
-  readonly Cards?: (Card | null)[];
-  constructor(init: ModelInit<User>);
-  static copyOf(source: User, mutator: (draft: MutableModel<User>) => MutableModel<User> | void): User;
 }

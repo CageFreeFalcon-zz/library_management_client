@@ -10,13 +10,6 @@ export const schema = {
           isRequired: true,
           attributes: [],
         },
-        userID: {
-          name: "userID",
-          isArray: false,
-          type: "ID",
-          isRequired: true,
-          attributes: [],
-        },
         title: {
           name: "title",
           isArray: false,
@@ -45,6 +38,13 @@ export const schema = {
           isRequired: false,
           attributes: [],
         },
+        userna: {
+          name: "userna",
+          isArray: false,
+          type: "String",
+          isRequired: false,
+          attributes: [],
+        },
       },
       syncable: true,
       pluralName: "UserNotifications",
@@ -52,13 +52,6 @@ export const schema = {
         {
           type: "model",
           properties: {},
-        },
-        {
-          type: "key",
-          properties: {
-            name: "byUser",
-            fields: ["userID"],
-          },
         },
         {
           type: "auth",
@@ -106,6 +99,13 @@ export const schema = {
         },
         content: {
           name: "content",
+          isArray: false,
+          type: "String",
+          isRequired: false,
+          attributes: [],
+        },
+        data: {
+          name: "data",
           isArray: false,
           type: "AWSJSON",
           isRequired: false,
@@ -271,15 +271,6 @@ export const schema = {
           isRequired: true,
           attributes: [],
         },
-        format: {
-          name: "format",
-          isArray: false,
-          type: {
-            enum: "BookFormat",
-          },
-          isRequired: true,
-          attributes: [],
-        },
         status: {
           name: "status",
           isArray: false,
@@ -390,18 +381,18 @@ export const schema = {
           isRequired: true,
           attributes: [],
         },
-        userID: {
-          name: "userID",
-          isArray: false,
-          type: "ID",
-          isRequired: true,
-          attributes: [],
-        },
         bookitemID: {
           name: "bookitemID",
           isArray: false,
           type: "ID",
           isRequired: true,
+          attributes: [],
+        },
+        Username: {
+          name: "Username",
+          isArray: false,
+          type: "String",
+          isRequired: false,
           attributes: [],
         },
       },
@@ -411,13 +402,6 @@ export const schema = {
         {
           type: "model",
           properties: {},
-        },
-        {
-          type: "key",
-          properties: {
-            name: "byUser",
-            fields: ["userID"],
-          },
         },
         {
           type: "key",
@@ -748,195 +732,16 @@ export const schema = {
           isRequired: true,
           attributes: [],
         },
-        userID: {
-          name: "userID",
+        username: {
+          name: "username",
           isArray: false,
-          type: "ID",
+          type: "String",
           isRequired: false,
           attributes: [],
         },
       },
       syncable: true,
       pluralName: "Cards",
-      attributes: [
-        {
-          type: "model",
-          properties: {},
-        },
-        {
-          type: "key",
-          properties: {
-            name: "byUser",
-            fields: ["userID"],
-          },
-        },
-        {
-          type: "auth",
-          properties: {
-            rules: [
-              {
-                allow: "public",
-                operations: ["create", "update", "delete", "read"],
-              },
-            ],
-          },
-        },
-      ],
-    },
-    User: {
-      name: "User",
-      fields: {
-        id: {
-          name: "id",
-          isArray: false,
-          type: "ID",
-          isRequired: true,
-          attributes: [],
-        },
-        username: {
-          name: "username",
-          isArray: false,
-          type: "String",
-          isRequired: true,
-          attributes: [],
-        },
-        email: {
-          name: "email",
-          isArray: false,
-          type: "AWSEmail",
-          isRequired: true,
-          attributes: [],
-        },
-        phone: {
-          name: "phone",
-          isArray: false,
-          type: "AWSPhone",
-          isRequired: true,
-          attributes: [],
-        },
-        course: {
-          name: "course",
-          isArray: false,
-          type: {
-            enum: "Course",
-          },
-          isRequired: true,
-          attributes: [],
-        },
-        department: {
-          name: "department",
-          isArray: false,
-          type: {
-            enum: "Department",
-          },
-          isRequired: true,
-          attributes: [],
-        },
-        year: {
-          name: "year",
-          isArray: false,
-          type: {
-            enum: "Year",
-          },
-          isRequired: true,
-          attributes: [],
-        },
-        f_name: {
-          name: "f_name",
-          isArray: false,
-          type: "String",
-          isRequired: true,
-          attributes: [],
-        },
-        dob: {
-          name: "dob",
-          isArray: false,
-          type: "AWSDate",
-          isRequired: true,
-          attributes: [],
-        },
-        address: {
-          name: "address",
-          isArray: false,
-          type: "String",
-          isRequired: true,
-          attributes: [],
-        },
-        city: {
-          name: "city",
-          isArray: false,
-          type: "String",
-          isRequired: true,
-          attributes: [],
-        },
-        pincode: {
-          name: "pincode",
-          isArray: false,
-          type: "Int",
-          isRequired: true,
-          attributes: [],
-        },
-        dp_path: {
-          name: "dp_path",
-          isArray: false,
-          type: "AWSURL",
-          isRequired: false,
-          attributes: [],
-        },
-        status: {
-          name: "status",
-          isArray: false,
-          type: {
-            enum: "UserStatus",
-          },
-          isRequired: true,
-          attributes: [],
-        },
-        Transactions: {
-          name: "Transactions",
-          isArray: true,
-          type: {
-            model: "Transaction",
-          },
-          isRequired: false,
-          attributes: [],
-          isArrayNullable: true,
-          association: {
-            connectionType: "HAS_MANY",
-            associatedWith: "userID",
-          },
-        },
-        UserNotifications: {
-          name: "UserNotifications",
-          isArray: true,
-          type: {
-            model: "UserNotification",
-          },
-          isRequired: false,
-          attributes: [],
-          isArrayNullable: true,
-          association: {
-            connectionType: "HAS_MANY",
-            associatedWith: "userID",
-          },
-        },
-        Cards: {
-          name: "Cards",
-          isArray: true,
-          type: {
-            model: "Card",
-          },
-          isRequired: false,
-          attributes: [],
-          isArrayNullable: true,
-          association: {
-            connectionType: "HAS_MANY",
-            associatedWith: "userID",
-          },
-        },
-      },
-      syncable: true,
-      pluralName: "Users",
       attributes: [
         {
           type: "model",
@@ -957,10 +762,6 @@ export const schema = {
     },
   },
   enums: {
-    BookFormat: {
-      name: "BookFormat",
-      values: ["HARDCOVER", "PAPPERBACK"],
-    },
     BookStatus: {
       name: "BookStatus",
       values: ["ISSUED", "NOTISSUED", "LOST"],
@@ -971,25 +772,9 @@ export const schema = {
     },
     CardStatus: {
       name: "CardStatus",
-      values: ["ISSUED", "UNISSUED", "DEPRICATED"],
-    },
-    Course: {
-      name: "Course",
-      values: ["BTECH", "DIPLOMA"],
-    },
-    Department: {
-      name: "Department",
-      values: ["CSE", "ME", "CE", "EE", "ECE"],
-    },
-    Year: {
-      name: "Year",
-      values: ["FIRST", "SECOND", "THIRD", "FOURTH"],
-    },
-    UserStatus: {
-      name: "UserStatus",
-      values: ["UNAPPROVED", "APPROVED", "SUSPENDED"],
+      values: ["ISSUED", "DEPRICATED"],
     },
   },
   nonModels: {},
-  version: "9ddef173e2b2ec0d261a0f90efcb6508",
+  version: "cc13fc9e49e46ac1ad9bddd665a0c095",
 };

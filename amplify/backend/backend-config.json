@@ -19,35 +19,165 @@
           ]
         }
       }
+    },
+    "AdminQueries": {
+      "service": "API Gateway",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [
+        {
+          "category": "auth",
+          "resourceName": "librarymanagement6e08d28c6e08d28c",
+          "attributes": [
+            "UserPoolId"
+          ]
+        },
+        {
+          "category": "function",
+          "resourceName": "AdminQueries05141c64",
+          "attributes": [
+            "Arn",
+            "Name"
+          ]
+        }
+      ]
     }
   },
   "auth": {
-    "librarymanagement29332672": {
+    "userPoolGroups": {
+      "service": "Cognito-UserPool-Groups",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [
+        {
+          "category": "auth",
+          "resourceName": "librarymanagement6e08d28c6e08d28c",
+          "attributes": [
+            "UserPoolId",
+            "AppClientIDWeb",
+            "AppClientID",
+            "IdentityPoolId"
+          ]
+        }
+      ]
+    },
+    "librarymanagement6e08d28c6e08d28c": {
       "service": "Cognito",
-      "providerPlugin": "awscloudformation",
-      "dependsOn": [],
-      "customAuth": false
-    }
-  },
-  "function": {
-    "S3Trigger4cab7755": {
-      "service": "Lambda",
-      "providerPlugin": "awscloudformation",
-      "build": true
-    }
-  },
-  "storage": {
-    "lmsystem": {
-      "service": "S3",
       "providerPlugin": "awscloudformation",
       "dependsOn": [
         {
           "category": "function",
-          "resourceName": "S3Trigger4cab7755",
+          "resourceName": "librarymanagement6e08d28c6e08d28cPostConfirmation",
+          "triggerProvider": "Cognito",
           "attributes": [
-            "Name",
             "Arn",
-            "LambdaExecutionRole"
+            "Name"
+          ]
+        }
+      ],
+      "customAuth": false
+    }
+  },
+  "function": {
+    "AdminQueries05141c64": {
+      "service": "Lambda",
+      "providerPlugin": "awscloudformation",
+      "build": true,
+      "dependsOn": [
+        {
+          "category": "function",
+          "resourceName": "adminqueriesmodules",
+          "attributes": [
+            "Arn"
+          ]
+        },
+        {
+          "category": "auth",
+          "resourceName": "librarymanagement6e08d28c6e08d28c",
+          "attributes": [
+            "UserPoolId"
+          ]
+        }
+      ]
+    },
+    "librarymanagement6e08d28c6e08d28cPostConfirmation": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "adminqueriesmodules": {
+      "providerPlugin": "awscloudformation",
+      "service": "LambdaLayer",
+      "build": true
+    },
+    "CreateLC": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "dependsOn": [
+        {
+          "category": "function",
+          "resourceName": "s3ClientModule",
+          "attributes": [
+            "Arn"
+          ]
+        },
+        {
+          "category": "function",
+          "resourceName": "qrCodeModule",
+          "attributes": [
+            "Arn"
+          ]
+        },
+        {
+          "category": "storage",
+          "resourceName": "LibraryStorage",
+          "attributes": [
+            "BucketName"
+          ]
+        }
+      ]
+    },
+    "s3ClientModule": {
+      "providerPlugin": "awscloudformation",
+      "service": "LambdaLayer",
+      "build": true
+    },
+    "qrCodeModule": {
+      "providerPlugin": "awscloudformation",
+      "service": "LambdaLayer",
+      "build": true
+    }
+  },
+  "storage": {
+    "LibraryStorage": {
+      "service": "S3",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [
+        {
+          "category": "auth",
+          "resourceName": "librarymanagement6e08d28c6e08d28c",
+          "attributes": [
+            "UserPoolId"
+          ]
+        },
+        {
+          "category": "auth",
+          "resourceName": "userPoolGroups",
+          "attributes": [
+            "librariansGroupRole"
+          ]
+        },
+        {
+          "category": "auth",
+          "resourceName": "userPoolGroups",
+          "attributes": [
+            "studentsGroupRole"
+          ]
+        },
+        {
+          "category": "auth",
+          "resourceName": "userPoolGroups",
+          "attributes": [
+            "requestsGroupRole"
           ]
         }
       ]

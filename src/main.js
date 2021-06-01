@@ -7,10 +7,10 @@ import "roboto-fontface/css/roboto/roboto-fontface.css";
 import "@mdi/font/css/materialdesignicons.css";
 
 import Amplify from "aws-amplify";
-import "@aws-amplify/ui-vue";
 import aws_exports from "./aws-exports";
 
 import "./scss/main.scss";
+import "./registerServiceWorker";
 
 Amplify.configure(aws_exports);
 

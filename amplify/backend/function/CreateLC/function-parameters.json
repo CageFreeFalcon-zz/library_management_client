@@ -1,0 +1,29 @@
+{
+  "permissions": {
+    "storage": {
+      "LibraryStorage": [
+        "create"
+      ]
+    }
+  },
+  "lambdaLayers": [
+    {
+      "type": "ProjectLayer",
+      "resourceName": "qrCodeModule",
+      "version": 2
+    },
+    {
+      "type": "ProjectLayer",
+      "resourceName": "s3ClientModule",
+      "version": 2
+    },
+    {
+      "type": "ExternalLayer",
+      "arn": "arn:aws:lambda:ap-south-1:460459130467:layer:node_canvas_layer:1"
+    },
+    {
+      "type": "ExternalLayer",
+      "arn": "arn:aws:lambda:ap-south-1:460459130467:layer:node_canvas_layer_libs:1"
+    }
+  ]
+}
