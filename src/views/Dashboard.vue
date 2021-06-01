@@ -156,13 +156,22 @@
 </template>
 
 <script>
-import card from "@/assets/images/card.png";
+import { mapGetters } from "vuex";
+import { Storage } from "aws-amplify";
 
 export default {
   name: "Dashboard",
   data: () => ({
-    card: card,
+    card: undefined,
+    user: {},
   }),
+  methods: {
+    ...mapGetters(["getUser"]),
+  },
+  async created() {
+    this.user = this.getUser();
+    this.card = await Storage.get("card/" + this.user.username + ".png");
+  },
 };
 </script>
 

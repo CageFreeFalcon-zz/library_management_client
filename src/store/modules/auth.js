@@ -1,6 +1,5 @@
 import { Auth, Storage } from "aws-amplify";
 import router from "@/router";
-// import axios from "axios";
 
 export default {
   state: {
@@ -38,43 +37,6 @@ export default {
         return false;
       }
     },
-    // async tempsignUp(context, payload) {
-    //   try {
-    //     const response = await axios.get(payload.dp, {
-    //       responseType: "arraybuffer",
-    //       headers: {
-    //         "Access-Control-Allow-Origin": "*",
-    //       },
-    //     });
-    //     const buffer = Buffer.from(response.data, "utf-8");
-    //     const { key } = await Storage.put(payload.dpkey, buffer, {
-    //       contentType: "image/*",
-    //     });
-    //     console.log("image uploaded " + key);
-    //     await Auth.signUp({
-    //       username: payload.email,
-    //       password: payload.password,
-    //       attributes: {
-    //         name: payload.name,
-    //         family_name: payload.family,
-    //         birthdate: payload.dob,
-    //         phone_number: payload.phone,
-    //         address: payload.address,
-    //         picture: key,
-    //         "custom:course": payload.course,
-    //         "custom:department": payload.department,
-    //         "custom:yoa": payload.yoa.toString(),
-    //         "custom:city": payload.city,
-    //         "custom:pin": payload.pin,
-    //         "custom:islateral": payload.islateral,
-    //       },
-    //     });
-    //     console.log("user created");
-    //   } catch (error) {
-    //     console.log(error);
-    //     return error;
-    //   }
-    // },
     async signUp(context, payload) {
       try {
         if (payload.password === payload.re_password) {
