@@ -7,5 +7,8 @@ module.exports = {
     backgroundColor: "#ffffff",
     appleMobileWebAppCapable: "yes",
     appleMobileWebAppStatusBarStyle: "black",
+    manifestOptions: {
+      background_color: "#ffffff",
+    },
   },
 };

@@ -26,19 +26,6 @@
           </v-col>
         </v-row>
         <v-row class="flex-grow-0 px-8 confirm_signup">
-          <v-col cols="12">
-            <v-alert
-              border="left"
-              color="red"
-              class="mb-0"
-              dense
-              text
-              type="error"
-              v-if="msg"
-            >
-              {{ msg }}
-            </v-alert>
-          </v-col>
           <v-col cols="2" v-for="(f, i) in field" :key="i" class="px-2">
             <v-text-field
               height="70"
@@ -94,7 +81,6 @@ export default {
     return {
       logo: logo,
       field: ["", "", "", "", "", ""],
-      msg: "",
       backPath: this.$route.params.type === "registration" ? "/" : "/forgot",
       loading: false,
       resendLoading: false,
@@ -123,10 +109,10 @@ export default {
       var otp = this.field.join("");
       this.loading = true;
       if (this.$route.params.type === "registration") {
-        const res = await this.confirmSignUp({ code: otp });
-        if (res !== undefined) {
-          this.loading = false;
-          this.msg = res.message;
+        try {
+          await this.confirmSignUp({ code: otp });
+        } catch (e) {
+          this.$swal("Error", e.message, "error");
         }
       } else if (this.$route.params.type === "forgotPassword") {
         this.setOtp(otp);
@@ -137,14 +123,22 @@ export default {
     async resendCode() {
       this.resendLoading = true;
       if (this.$route.params.type === "registration") {
-        const res = await this.resendConfirmationCode();
-        this.msg = res.message;
+        try {
+          const res = await this.resendConfirmationCode();
+          this.$swal("Success", res.message, "success");
+        } catch (e) {
+          this.$swal("Error", e.message, "error");
+        }
       } else if (this.$route.params.type === "forgotPassword") {
-        const res = await this.forgotPassword({
-          email: this.$store.getters.getEmail,
-          type: "resend",
-        });
-        this.msg = res.message;
+        try {
+          const res = await this.forgotPassword({
+            email: this.$store.getters.getEmail,
+            type: "resend",
+          });
+          this.$swal("Success", res.message, "success");
+        } catch (e) {
+          this.$swal("Error", e.message, "error");
+        }
       }
       this.resendLoading = false;
     },
@@ -154,8 +148,7 @@ export default {
       el.$refs["input"].setAttribute("maxlength", 1);
     });
     if (this.$route.query.msg) {
-      console.log(this.$route.query.msg);
-      this.msg = this.$route.query.msg;
+      this.$swal("", this.$route.query.msg, "success");
     }
   },
 };

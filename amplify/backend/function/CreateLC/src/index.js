@@ -9,14 +9,14 @@ const { S3Client } = require("@aws-sdk/client-s3");
 const { PutObjectCommand } = require("@aws-sdk/client-s3");
 const { createCanvas, loadImage, Image, registerFont } = require("canvas");
 
-exports.handler = async (event) => {
+exports.handler = async event => {
   const obj = {
     userid: event.username,
     name: event.name,
     department: event.department,
     yoa: event.yoa,
     course: event.course,
-    islateral: event.islateral,
+    islateral: event.islateral
   };
   let topmargin = 40;
   const width = 1125;
@@ -40,13 +40,13 @@ exports.handler = async (event) => {
     margin: 0,
     color: {
       dark: "#231f20",
-      light: "#56c596",
-    },
+      light: "#56c596"
+    }
   };
   const url = await QRCode.toDataURL(obj.userid, opts);
   const img = new Image();
   img.onload = () => context.drawImage(img, 828, 378, 235, 235);
-  img.onerror = (err) => {
+  img.onerror = err => {
     throw err;
   };
   img.src = url;
@@ -64,7 +64,7 @@ exports.handler = async (event) => {
   } else {
     lines.push(obj.name);
   }
-  lines.forEach((line) => {
+  lines.forEach(line => {
     let line_measures = context.measureText(line);
     context.fillStyle = "#231f20";
     context.fillRect(
@@ -102,7 +102,7 @@ exports.handler = async (event) => {
   const uploadParams = {
     Bucket: process.env.STORAGE_LIBRARYSTORAGE_BUCKETNAME,
     Key: "public/card/" + obj.userid + ".png",
-    Body: buffer,
+    Body: buffer
   };
   try {
     const s3Client = new S3Client({ region: process.env.REGION });

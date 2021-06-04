@@ -94,7 +94,6 @@ export default {
       showpass: false,
       password: "",
       re_password: "",
-      msg: "",
       loading: false,
     };
   },
@@ -103,12 +102,13 @@ export default {
     async submitform() {
       this.loading = true;
       if (this.$route.params.type === "reset") {
-        const res = await this.completePassword({
-          password: this.password,
-          re_password: this.re_password,
-        });
-        if (res !== undefined) {
-          this.msg = res.message;
+        try {
+          await this.completePassword({
+            password: this.password,
+            re_password: this.re_password,
+          });
+        } catch (e) {
+          this.$swal("Error", e.message, "error");
         }
       } else if (this.$route.params.type === "forgot") {
         const res = await this.forgotPasswordsubmit({

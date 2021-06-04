@@ -27,15 +27,6 @@
         </v-row>
         <v-row>
           <v-col class="px-11">
-            <v-alert
-              border="left"
-              color="red"
-              dense
-              text
-              type="error"
-              v-if="msg"
-              >{{ msg }}
-            </v-alert>
             <v-text-field
               height="70"
               rounded
@@ -70,7 +61,7 @@
               elevation="3"
               class="grad-btn text--white font-weight-bold mx-auto"
               :loading="loading"
-              @click="submitform"
+              @click="login"
               >Sign In
             </v-btn>
           </v-col>
@@ -91,28 +82,24 @@ export default {
       logo: logo,
       email: "",
       password: "",
-      msg: "",
       loading: false,
     };
   },
   methods: {
     ...mapActions(["signIn"]),
-    async submitform() {
+    async login() {
       this.loading = true;
-      const res = await this.signIn({
-        username: this.email,
-        password: this.password,
-      });
-      if (res !== undefined) {
-        console.log(res.message);
-        this.msg = res.message;
+      try {
+        await this.signIn({ username: this.email, password: this.password });
+      } catch (e) {
+        this.$swal("Error", e.message, "error");
       }
       this.loading = false;
     },
   },
   mounted() {
     if (this.$route.query.msg) {
-      this.msg = this.$route.query.msg;
+      this.$swal("", this.$route.query.msg, "success");
     }
   },
 };

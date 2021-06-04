@@ -28,16 +28,6 @@
           </v-row>
           <v-row>
             <v-col class="px-11">
-              <v-alert
-                border="left"
-                color="red"
-                dense
-                text
-                type="error"
-                v-if="msg"
-              >
-                {{ msg }}
-              </v-alert>
               <v-text-field
                 rounded
                 solo
@@ -398,7 +388,6 @@ export default {
         re_password: "",
         islateral: false,
       },
-      msg: "",
       loading: false,
     };
   },
@@ -407,10 +396,10 @@ export default {
     async nextstep() {
       if (this.step === 4) {
         this.loading = true;
-        const res = await this.signUp(this.userdata);
-        console.log(res);
-        if (res !== undefined) {
-          this.msg = res.message;
+        try {
+          await this.signUp(this.userdata);
+        } catch (e) {
+          this.$swal("Error", e.message, "error");
           this.step = 0;
         }
         this.loading = false;

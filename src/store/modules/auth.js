@@ -38,125 +38,81 @@ export default {
       }
     },
     async signUp(context, payload) {
-      try {
-        if (payload.password === payload.re_password) {
-          let img_path = "";
-          if (payload.dp) {
-            console.log("started image upload");
-            const { key } = await Storage.put(payload.dp.name, payload.dp, {
-              contentType: "image/*",
-            });
-            img_path = key;
-            console.log("image uploaded" + key);
-          }
-          console.log(img_path);
-          await Auth.signUp({
-            username: payload.email,
-            password: payload.password,
-            attributes: {
-              name: payload.name,
-              family_name: payload.fathername,
-              birthdate: payload.dob,
-              phone_number: "+91" + payload.phone,
-              address: payload.address,
-              picture: img_path,
-              "custom:course": payload.course,
-              "custom:department": payload.department,
-              "custom:yoa": payload.yoa,
-              "custom:city": payload.city,
-              "custom:pin": payload.pin,
-              "custom:islateral": payload.islateral,
-            },
+      if (payload.password === payload.re_password) {
+        let img_path = "";
+        if (payload.dp) {
+          console.log("started image upload");
+          const { key } = await Storage.put(payload.dp.name, payload.dp, {
+            contentType: "image/*",
           });
-          context.commit("setEmail", payload.email);
-          router.push({ name: "OTP", params: { type: "registration" } });
-        } else {
-          throw Error("Password doesn't match");
+          img_path = key;
+          console.log("image uploaded" + key);
         }
-      } catch (error) {
-        return error;
+        await Auth.signUp({
+          username: payload.email,
+          password: payload.password,
+          attributes: {
+            name: payload.name,
+            family_name: payload.fathername,
+            birthdate: payload.dob,
+            phone_number: "+91" + payload.phone,
+            address: payload.address,
+            picture: img_path,
+            "custom:course": payload.course,
+            "custom:department": payload.department,
+            "custom:yoa": payload.yoa,
+            "custom:city": payload.city,
+            "custom:pin": payload.pin,
+            "custom:islateral": payload.islateral,
+          },
+        });
+        context.commit("setEmail", payload.email);
+        router.push({ name: "OTP", params: { type: "registration" } });
+      } else {
+        throw Error("Password doesn't match");
       }
     },
     async confirmSignUp(context, payload) {
-      try {
-        const data = await Auth.confirmSignUp(
-          context.state.email,
-          payload.code
-        );
-        console.log(data);
-        if (data === "SUCCESS") {
-          context.commit("setAuthState", false);
-          router.push({
-            name: "Home",
-            query: {
-              msg:
-                "You have successfully signed up wait for librarian to confirm your account",
-            },
-          });
-        }
-      } catch (error) {
-        console.log(error);
-        return error;
+      const data = await Auth.confirmSignUp(context.state.email, payload.code);
+      if (data === "SUCCESS") {
+        context.commit("setAuthState", false);
+        router.push({
+          name: "Home",
+          query: {
+            msg:
+              "You have successfully signed up wait for librarian to confirm your account",
+          },
+        });
       }
     },
     async resendConfirmationCode(context) {
-      try {
-        await Auth.resendSignUp(context.state.email);
-        return { message: "code resent successfully" };
-      } catch (error) {
-        return error;
-      }
+      await Auth.resendSignUp(context.state.email);
+      return { message: "code resent successfully" };
     },
     async completePassword(context, payload) {
-      try {
-        if (payload.password === payload.re_password) {
-          const user = await Auth.currentAuthenticatedUser({
-            bypassCache: true,
-          });
-          console.log(user);
-          const newUser = await Auth.completeNewPassword(
-            user,
-            payload.password
-          );
-          console.log(newUser);
-          context.commit("setuser", newUser);
-          const pl = user.signInUserSession.accessToken.payload;
-          let containStudent = false;
-          if ("cognito:groups" in pl) {
-            if (pl["cognito:groups"].includes("students")) {
-              containStudent = true;
-            }
-          }
-          if (containStudent) {
-            router.push("/dashboard");
-          } else {
-            await context.dispatch(
-              "signOut",
-              "Let Librarian validate your account first"
-            );
-          }
-        } else {
-          throw Error("password didn't match");
-        }
-      } catch (error) {
-        return error;
+      if (payload.password === payload.re_password) {
+        const user = await Auth.currentAuthenticatedUser({
+          bypassCache: true,
+        });
+        console.log(user);
+        const newUser = await Auth.completeNewPassword(user, payload.password);
+        console.log(newUser);
+        router.push("/dashboard");
+      } else {
+        throw Error("password didn't match");
       }
     },
     async forgotPassword(context, payload) {
       context.commit("setEmail", payload.email);
-      try {
-        await Auth.forgotPassword(payload.email);
-        if (payload.type !== "resend") {
-          router.push({
-            name: "OTP",
-            params: { type: "forgotPassword" },
-            query: { msg: "Code send successfully" },
-          });
-        } else {
-          return { message: "Code send successfully" };
-        }
-      } catch (error) {
-        return error;
+      await Auth.forgotPassword(payload.email);
+      if (payload.type !== "resend") {
+        router.push({
+          name: "OTP",
+          params: { type: "forgotPassword" },
+          query: { msg: "Code send successfully" },
+        });
+      } else {
+        return { message: "Code send successfully" };
       }
     },
     async forgotPasswordsubmit(context, payload) {
@@ -189,41 +145,23 @@ export default {
     async signIn(context, payload) {
       try {
         const user = await Auth.signIn(payload.username, payload.password);
-        console.log(user);
-        context.commit("setuser", user);
         if (user.challengeName === "NEW_PASSWORD_REQUIRED") {
           router.push({ name: "NewPassword", params: { type: "reset" } });
-        }
-        const pl = user.signInUserSession.accessToken.payload;
-        let containStudent = false;
-        if ("cognito:groups" in pl) {
-          if (pl["cognito:groups"].includes("students")) {
-            containStudent = true;
-          }
-        }
-        if (containStudent) {
-          context.commit("setAuthState", true);
-          router.push("/dashboard");
         } else {
-          await context.dispatch(
-            "signOut",
-            "Let Librarian validate your account first"
-          );
+          router.push("/dashboard");
         }
       } catch (error) {
         if (error.code === "UserNotConfirmedException") {
           context.commit("setEmail", payload.username);
           context.commit("setPassword", payload.password);
-          await context.dispatch("resendConfirmationCode", {
-            username: payload.username,
-          });
+          await context.dispatch("resendConfirmationCode");
           router.push({
             name: "OTP",
             params: { type: "registration" },
             query: { msg: error.message },
           });
         } else {
-          return error;
+          throw error;
         }
       }
     },

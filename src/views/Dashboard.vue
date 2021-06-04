@@ -156,8 +156,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-import { Storage } from "aws-amplify";
+import { Auth, Storage } from "aws-amplify";
 
 export default {
   name: "Dashboard",
@@ -165,11 +164,9 @@ export default {
     card: undefined,
     user: {},
   }),
-  methods: {
-    ...mapGetters(["getUser"]),
-  },
+  methods: {},
   async created() {
-    this.user = this.getUser();
+    this.user = await Auth.currentAuthenticatedUser();
     this.card = await Storage.get("card/" + this.user.username + ".png");
   },
 };

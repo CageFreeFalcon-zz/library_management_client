@@ -29,16 +29,6 @@
         </v-row>
         <v-row>
           <v-col class="px-11">
-            <v-alert
-              border="left"
-              color="red"
-              dense
-              text
-              type="error"
-              v-if="msg"
-            >
-              {{ msg }}
-            </v-alert>
             <v-text-field
               rounded
               solo
@@ -89,9 +79,10 @@ export default {
     ...mapActions(["forgotPassword"]),
     async sendOtp() {
       this.loading = true;
-      const res = await this.forgotPassword({ email: this.email });
-      if (res !== undefined) {
-        this.msg = res.message;
+      try {
+        await this.forgotPassword({ email: this.email });
+      } catch (e) {
+        this.$swal("Error", e.message, "error");
       }
       this.loading = false;
     },

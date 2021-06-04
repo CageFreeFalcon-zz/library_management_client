@@ -25,7 +25,7 @@
         },
         "librarymanagement6e08d28c6e08d28cPostConfirmation": {
           "deploymentBucketName": "amplify-librarymanagement-dev-122946-deployment",
-          "s3Key": "amplify-builds/librarymanagement6e08d28c6e08d28cPostConfirmation-673939746737655a7139-build.zip"
+          "s3Key": "amplify-builds/librarymanagement6e08d28c6e08d28cPostConfirmation-334774482f7261686e35-build.zip"
         },
         "CreateLibraryCard": {
           "deploymentBucketName": "amplify-librarymanagement-dev-122946-deployment",
@@ -37,7 +37,7 @@
         },
         "CreateLC": {
           "deploymentBucketName": "amplify-librarymanagement-dev-122946-deployment",
-          "s3Key": "amplify-builds/CreateLC-3677582f772f32566b64-build.zip"
+          "s3Key": "amplify-builds/CreateLC-424f2f31735051467363-build.zip"
         },
         "s3ClientModule": {
           "deploymentBucketName": "amplify-librarymanagement-dev-122946-deployment",
