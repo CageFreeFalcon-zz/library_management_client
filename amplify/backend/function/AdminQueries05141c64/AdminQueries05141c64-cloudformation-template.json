@@ -86,7 +86,7 @@
         },
         "Layers": [
           {
-            "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:layer:adminqueriesmodules-dev:2"
+            "Ref": "functionadminqueriesmodulesArn"
           }
         ]
       }

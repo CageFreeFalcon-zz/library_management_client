@@ -1,7 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home";
-import store from "../store";
+import { Auth } from "aws-amplify";
 
 Vue.use(VueRouter);
 
@@ -10,22 +10,6 @@ const routes = [
     path: "/",
     name: "Home",
     component: Home,
-    beforeEnter: (to, from, next) => {
-      if (
-        store.getters.getAuthState === undefined ||
-        store.getters.getAuthState === true
-      ) {
-        store.dispatch("isLoggedIn").then((res) => {
-          if (res) {
-            next("/dashboard");
-          } else {
-            next();
-          }
-        });
-      } else {
-        next();
-      }
-    },
   },
   {
     path: "/login",
@@ -57,26 +41,7 @@ const routes = [
     name: "Dashboard",
     components: {
       default: () => import("../views/Dashboard"),
-      appBar: () => import("@/components/AppBar"),
-    },
-    beforeEnter: (to, from, next) => {
-      const authenticated = store.getters.getAuthState;
-      if (authenticated) {
-        next();
-      } else if (authenticated === undefined) {
-        store.dispatch("isLoggedIn").then((res) => {
-          if (res) {
-            next();
-          } else {
-            next("/");
-          }
-        });
-      } else {
-        next({
-          name: "Login",
-          query: { msg: "Please login again" },
-        });
-      }
+      appBar: () => import("../components/AppBar"),
     },
   },
   {
@@ -84,26 +49,7 @@ const routes = [
     name: "Search",
     components: {
       default: () => import("../views/Search"),
-      appBar: () => import("@/components/SearchBar"),
-    },
-    beforeEnter: (to, from, next) => {
-      const authenticated = store.getters.getAuthState;
-      if (authenticated) {
-        next();
-      } else if (authenticated === undefined) {
-        store.dispatch("isLoggedIn").then((res) => {
-          if (res) {
-            next();
-          } else {
-            next("/");
-          }
-        });
-      } else {
-        next({
-          name: "Login",
-          query: { msg: "Please login again" },
-        });
-      }
+      appBar: () => import("../components/SearchBar"),
     },
   },
   {
@@ -111,27 +57,8 @@ const routes = [
     name: "Profile",
     components: {
       default: () => import("../views/Profile"),
-      appBar: () => import("@/components/ProfilrBar"),
+      appBar: () => import("../components/ProfilrBar"),
     },
-    // beforeEnter: (to, from, next) => {
-    //   const authenticated = store.getters.getAuthState;
-    //   if (authenticated) {
-    //     next();
-    //   } else if (authenticated === undefined) {
-    //     store.dispatch("isLoggedIn").then((res) => {
-    //       if (res) {
-    //         next();
-    //       } else {
-    //         next("/");
-    //       }
-    //     });
-    //   } else {
-    //     next({
-    //       name: "Login",
-    //       query: { msg: "Please login again" },
-    //     });
-    //   }
-    // },
   },
   {
     path: "/changepassword",
@@ -140,25 +67,6 @@ const routes = [
       default: () => import("../views/ChangePassword"),
       appBar: () => import("@/components/AppBar"),
     },
-    beforeEnter: (to, from, next) => {
-      const authenticated = store.getters.getAuthState;
-      if (authenticated) {
-        next();
-      } else if (authenticated === undefined) {
-        store.dispatch("isLoggedIn").then((res) => {
-          if (res) {
-            next();
-          } else {
-            next("/");
-          }
-        });
-      } else {
-        next({
-          name: "Login",
-          query: { msg: "Please login again" },
-        });
-      }
-    },
   },
 ];
 
@@ -166,6 +74,26 @@ const router = new VueRouter({
   mode: "history",
   base: process.env.BASE_URL,
   routes,
+});
+
+router.beforeEach(async (to, from, next) => {
+  let checkAuth = ["Dashboard", "Search", "Profile", "ChanghePassword"];
+  if (checkAuth.includes(to.name)) {
+    try {
+      await Auth.currentAuthenticatedUser();
+      next();
+    } catch (e) {
+      this.$swal("Error", e, "error");
+      next("/login");
+    }
+  } else {
+    try {
+      await Auth.currentAuthenticatedUser();
+      next("/dashboard");
+    } catch (e) {
+      next();
+    }
+  }
 });
 
 export default router;

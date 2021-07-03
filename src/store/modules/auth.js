@@ -27,16 +27,6 @@ export default {
     },
   },
   actions: {
-    async isLoggedIn(context) {
-      try {
-        await Auth.currentAuthenticatedUser();
-        context.commit("setAuthState", true);
-        return true;
-      } catch (e) {
-        context.commit("setAuthState", false);
-        return false;
-      }
-    },
     async signUp(context, payload) {
       if (payload.password === payload.re_password) {
         let img_path = "";
@@ -79,8 +69,7 @@ export default {
         router.push({
           name: "Home",
           query: {
-            msg:
-              "You have successfully signed up wait for librarian to confirm your account",
+            msg: "You have successfully signed up wait for librarian to confirm your account",
           },
         });
       }
@@ -138,8 +127,9 @@ export default {
             params: { type: "forgotPassword" },
             query: { msg: error.message },
           });
+        } else {
+          throw error;
         }
-        return error;
       }
     },
     async signIn(context, payload) {
@@ -166,12 +156,16 @@ export default {
       }
     },
     async changePassword(context, payload) {
-      Auth.currentAuthenticatedUser()
-        .then((user) => {
-          return Auth.changePassword(user, payload.oldpass, payload.newpass);
-        })
-        .then((data) => console.log(data))
-        .catch((err) => console.log(err));
+      if (payload.newPassword === payload.reNewPassword) {
+        const user = await Auth.currentAuthenticatedUser();
+        await Auth.changePassword(
+          user,
+          payload.oldPassword,
+          payload.newPassword
+        );
+      } else {
+        throw Error("Password doesn't match");
+      }
     },
     async signOut(context, payload) {
       try {

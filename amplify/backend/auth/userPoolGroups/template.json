@@ -5,11 +5,11 @@
             "Type": "String",
             "Default": "authlibrarymanagement6e08d28c6e08d28cUserPoolId"
         },
-        "authlibrarymanagement6e08d28c6e08d28cIdentityPoolId": {
+      "authlibrarymanagement6e08d28c6e08d28cIdentityPoolId": {
             "Type": "String",
             "Default": "authlibrarymanagement6e08d28c6e08d28cIdentityPoolId"
         },
-        "authlibrarymanagement6e08d28c6e08d28cAppClientID": {
+      "authlibrarymanagement6e08d28c6e08d28cAppClientID": {
             "Type": "String",
             "Default": "authlibrarymanagement6e08d28c6e08d28cAppClientID"
         },
@@ -38,36 +38,36 @@
         }
     },
     "Resources": {
-        "librariansGroup": {
-            "Type": "AWS::Cognito::UserPoolGroup",
-            "Properties": {
-                "GroupName": "librarians",
-                "Precedence": 1,
-                "RoleArn": {
-                    "Fn::GetAtt": [
-                        "librariansGroupRole",
-                        "Arn"
-                    ]
-                },
-                "UserPoolId": {
-                    "Ref": "authlibrarymanagement6e08d28c6e08d28cUserPoolId"
-                }
-            }
-        },
-        "librariansGroupRole": {
+      "librariansGroup": {
+        "Type": "AWS::Cognito::UserPoolGroup",
+        "Properties": {
+          "GroupName": "librarians",
+          "Precedence": 1,
+          "RoleArn": {
+            "Fn::GetAtt": [
+              "librariansGroupRole",
+              "Arn"
+            ]
+          },
+          "UserPoolId": {
+            "Ref": "authlibrarymanagement6e08d28c6e08d28cUserPoolId"
+          }
+        }
+      },
+      "librariansGroupRole": {
             "Type": "AWS::IAM::Role",
             "Properties": {
-                "RoleName": {
-                    "Fn::Join": [
-                        "",
-                        [
-                            {
-                                "Ref": "authlibrarymanagement6e08d28c6e08d28cUserPoolId"
-                            },
-                            "-librariansGroupRole"
-                        ]
-                    ]
-                },
+              "RoleName": {
+                "Fn::Join": [
+                  "",
+                  [
+                    {
+                      "Ref": "authlibrarymanagement6e08d28c6e08d28cUserPoolId"
+                    },
+                    "-librariansGroupRole"
+                  ]
+                ]
+              },
                 "AssumeRolePolicyDocument": {
                     "Version": "2012-10-17",
                     "Statement": [
@@ -79,50 +79,50 @@
                             },
                             "Action": "sts:AssumeRoleWithWebIdentity",
                             "Condition": {
-                                "StringEquals": {
-                                    "cognito-identity.amazonaws.com:aud": {
-                                        "Ref": "authlibrarymanagement6e08d28c6e08d28cIdentityPoolId"
-                                    }
-                                },
-                                "ForAnyValue:StringLike": {
-                                    "cognito-identity.amazonaws.com:amr": "authenticated"
+                              "StringEquals": {
+                                "cognito-identity.amazonaws.com:aud": {
+                                  "Ref": "authlibrarymanagement6e08d28c6e08d28cIdentityPoolId"
                                 }
+                              },
+                              "ForAnyValue:StringLike": {
+                                "cognito-identity.amazonaws.com:amr": "authenticated"
+                              }
                             }
                         }
                     ]
                 }
             }
         },
-        "studentsGroup": {
-            "Type": "AWS::Cognito::UserPoolGroup",
-            "Properties": {
-                "GroupName": "students",
-                "Precedence": 2,
-                "RoleArn": {
-                    "Fn::GetAtt": [
-                        "studentsGroupRole",
-                        "Arn"
-                    ]
-                },
-                "UserPoolId": {
-                    "Ref": "authlibrarymanagement6e08d28c6e08d28cUserPoolId"
-                }
-            }
-        },
-        "studentsGroupRole": {
+      "studentsGroup": {
+        "Type": "AWS::Cognito::UserPoolGroup",
+        "Properties": {
+          "GroupName": "students",
+          "Precedence": 2,
+          "RoleArn": {
+            "Fn::GetAtt": [
+              "studentsGroupRole",
+              "Arn"
+            ]
+          },
+          "UserPoolId": {
+            "Ref": "authlibrarymanagement6e08d28c6e08d28cUserPoolId"
+          }
+        }
+      },
+      "studentsGroupRole": {
             "Type": "AWS::IAM::Role",
             "Properties": {
-                "RoleName": {
-                    "Fn::Join": [
-                        "",
-                        [
-                            {
-                                "Ref": "authlibrarymanagement6e08d28c6e08d28cUserPoolId"
-                            },
-                            "-studentsGroupRole"
-                        ]
-                    ]
-                },
+              "RoleName": {
+                "Fn::Join": [
+                  "",
+                  [
+                    {
+                      "Ref": "authlibrarymanagement6e08d28c6e08d28cUserPoolId"
+                    },
+                    "-studentsGroupRole"
+                  ]
+                ]
+              },
                 "AssumeRolePolicyDocument": {
                     "Version": "2012-10-17",
                     "Statement": [
@@ -134,50 +134,50 @@
                             },
                             "Action": "sts:AssumeRoleWithWebIdentity",
                             "Condition": {
-                                "StringEquals": {
-                                    "cognito-identity.amazonaws.com:aud": {
-                                        "Ref": "authlibrarymanagement6e08d28c6e08d28cIdentityPoolId"
-                                    }
-                                },
-                                "ForAnyValue:StringLike": {
-                                    "cognito-identity.amazonaws.com:amr": "authenticated"
+                              "StringEquals": {
+                                "cognito-identity.amazonaws.com:aud": {
+                                  "Ref": "authlibrarymanagement6e08d28c6e08d28cIdentityPoolId"
                                 }
+                              },
+                              "ForAnyValue:StringLike": {
+                                "cognito-identity.amazonaws.com:amr": "authenticated"
+                              }
                             }
                         }
                     ]
                 }
             }
         },
-        "requestsGroup": {
-            "Type": "AWS::Cognito::UserPoolGroup",
-            "Properties": {
-                "GroupName": "requests",
-                "Precedence": 3,
-                "RoleArn": {
-                    "Fn::GetAtt": [
-                        "requestsGroupRole",
-                        "Arn"
-                    ]
-                },
-                "UserPoolId": {
-                    "Ref": "authlibrarymanagement6e08d28c6e08d28cUserPoolId"
-                }
-            }
-        },
-        "requestsGroupRole": {
+      "requestsGroup": {
+        "Type": "AWS::Cognito::UserPoolGroup",
+        "Properties": {
+          "GroupName": "requests",
+          "Precedence": 3,
+          "RoleArn": {
+            "Fn::GetAtt": [
+              "requestsGroupRole",
+              "Arn"
+            ]
+          },
+          "UserPoolId": {
+            "Ref": "authlibrarymanagement6e08d28c6e08d28cUserPoolId"
+          }
+        }
+      },
+      "requestsGroupRole": {
             "Type": "AWS::IAM::Role",
             "Properties": {
-                "RoleName": {
-                    "Fn::Join": [
-                        "",
-                        [
-                            {
-                                "Ref": "authlibrarymanagement6e08d28c6e08d28cUserPoolId"
-                            },
-                            "-requestsGroupRole"
-                        ]
-                    ]
-                },
+              "RoleName": {
+                "Fn::Join": [
+                  "",
+                  [
+                    {
+                      "Ref": "authlibrarymanagement6e08d28c6e08d28cUserPoolId"
+                    },
+                    "-requestsGroupRole"
+                  ]
+                ]
+              },
                 "AssumeRolePolicyDocument": {
                     "Version": "2012-10-17",
                     "Statement": [
@@ -189,21 +189,21 @@
                             },
                             "Action": "sts:AssumeRoleWithWebIdentity",
                             "Condition": {
-                                "StringEquals": {
-                                    "cognito-identity.amazonaws.com:aud": {
-                                        "Ref": "authlibrarymanagement6e08d28c6e08d28cIdentityPoolId"
-                                    }
-                                },
-                                "ForAnyValue:StringLike": {
-                                    "cognito-identity.amazonaws.com:amr": "authenticated"
+                              "StringEquals": {
+                                "cognito-identity.amazonaws.com:aud": {
+                                  "Ref": "authlibrarymanagement6e08d28c6e08d28cIdentityPoolId"
                                 }
+                              },
+                              "ForAnyValue:StringLike": {
+                                "cognito-identity.amazonaws.com:amr": "authenticated"
+                              }
                             }
                         }
                     ]
                 }
             }
         },
-        "LambdaExecutionRole": {
+      "LambdaExecutionRole": {
             "Type": "AWS::IAM::Role",
             "Properties": {
                 "RoleName": {
@@ -212,15 +212,16 @@
                         {
                         },
                         {
+
                             "Fn::Join": [
                                 "",
-                                [
-                                    "librarymanagement6e08d28c6e08d28c",
-                                    "-ExecutionRole-",
-                                    {
-                                        "Ref": "env"
-                                    }
-                                ]
+                              [
+                                "librarymanagement6e08d28c6e08d28c",
+                                "-ExecutionRole-",
+                                {
+                                  "Ref": "env"
+                                }
+                              ]
                             ]
                         }
                     ]
@@ -270,6 +271,7 @@
                                         "cognito-identity:SetIdentityPoolRoles",
                                         "cognito-identity:ListIdentityPools",
                                         "cognito-identity:describeIdentityPool"
+
                                     ],
                                     "Resource": "*"
                                 }
@@ -287,12 +289,12 @@
                                         "iam:PassRole"
                                     ],
                                     "Resource": [
-                                        {
-                                            "Ref": "AuthRoleArn"
-                                        },
-                                        {
-                                            "Ref": "UnauthRoleArn"
-                                        }
+                                      {
+                                        "Ref": "AuthRoleArn"
+                                      },
+                                      {
+                                        "Ref": "UnauthRoleArn"
+                                      }
                                     ]
                                 }
                             ]
@@ -302,20 +304,20 @@
             }
         },
         "RoleMapFunction": {
-            "Type": "AWS::Lambda::Function",
-            "DependsOn": [
-                "LambdaExecutionRole"
-            ],
-            "Properties": {
-                "Code": {
-                    "ZipFile": {
-                        "Fn::Join": [
-                            "\n",
-                            [
-                                "const response = require('cfn-response');",
-                                "const AWS = require('aws-sdk');",
-                                "exports.handler = (event, context) => {",
-                                "if (event.RequestType == 'Delete') {",
+          "Type": "AWS::Lambda::Function",
+          "DependsOn": [
+            "LambdaExecutionRole"
+          ],
+          "Properties": {
+            "Code": {
+              "ZipFile": {
+                "Fn::Join": [
+                  "\n",
+                  [
+                    "const response = require('cfn-response');",
+                    "const AWS = require('aws-sdk');",
+                    "exports.handler = (event, context) => {",
+                    "if (event.RequestType == 'Delete') {",
                                 "    response.send(event, context, response.SUCCESS, {message: 'Request type delete'})",
                                 "};",
                                 "if (event.RequestType == 'Create' || event.RequestType == 'Update') {",
@@ -349,6 +351,7 @@
                                 "    }",
                                 "   };",
                                 "};"
+
                             ]
                         ]
                     }
@@ -376,9 +379,9 @@
                 "AuthRoleArn": {
                     "Ref": "AuthRoleArn"
                 },
-                "UnauthRoleArn": {
-                    "Ref": "UnauthRoleArn"
-                },
+              "UnauthRoleArn": {
+                "Ref": "UnauthRoleArn"
+              },
                 "identityPoolId": {
                     "Ref": "authlibrarymanagement6e08d28c6e08d28cIdentityPoolId"
                 },
@@ -398,35 +401,35 @@
                     "Ref": "env"
                 }
             },
-            "DependsOn": [
-                "RoleMapFunction"
-            ]
+          "DependsOn": [
+            "RoleMapFunction"
+          ]
         }
     },
-    "Outputs": {
-        "librariansGroupRole": {
+  "Outputs": {
+    "librariansGroupRole": {
             "Value": {
                 "Fn::GetAtt": [
                     "librariansGroupRole",
                     "Arn"
                 ]
             }
-        },
-        "studentsGroupRole": {
+    },
+    "studentsGroupRole": {
             "Value": {
                 "Fn::GetAtt": [
                     "studentsGroupRole",
                     "Arn"
                 ]
             }
-        },
-        "requestsGroupRole": {
+    },
+    "requestsGroupRole": {
             "Value": {
                 "Fn::GetAtt": [
                     "requestsGroupRole",
                     "Arn"
                 ]
             }
-        }
     }
+  }
 }

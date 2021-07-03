@@ -2,134 +2,107 @@
 // this is an auto generated file. This will be overwritten
 
 export const onCreateUserNotification = /* GraphQL */ `
-  subscription OnCreateUserNotification {
-    onCreateUserNotification {
+  subscription OnCreateUserNotification($username: String) {
+    onCreateUserNotification(username: $username) {
       id
       title
       subtitle
       content
-      img_path
-      userna
-      _version
-      _deleted
-      _lastChangedAt
+      username
+      status
       createdAt
       updatedAt
     }
   }
 `;
 export const onUpdateUserNotification = /* GraphQL */ `
-  subscription OnUpdateUserNotification {
-    onUpdateUserNotification {
+  subscription OnUpdateUserNotification($username: String) {
+    onUpdateUserNotification(username: $username) {
       id
       title
       subtitle
       content
-      img_path
-      userna
-      _version
-      _deleted
-      _lastChangedAt
+      username
+      status
       createdAt
       updatedAt
     }
   }
 `;
 export const onDeleteUserNotification = /* GraphQL */ `
-  subscription OnDeleteUserNotification {
-    onDeleteUserNotification {
+  subscription OnDeleteUserNotification($username: String) {
+    onDeleteUserNotification(username: $username) {
       id
       title
       subtitle
       content
-      img_path
-      userna
-      _version
-      _deleted
-      _lastChangedAt
+      username
+      status
       createdAt
       updatedAt
     }
   }
 `;
-
 export const onCreateAdminNotification = /* GraphQL */ `
-  subscription OnCreateAdminNotification {
-    onCreateAdminNotification {
+  subscription OnCreateAdminNotification($owner: String) {
+    onCreateAdminNotification(owner: $owner) {
       id
-      type
       title
       subtitle
       content
-      data
-      _version
-      _deleted
-      _lastChangedAt
+      status
       createdAt
       updatedAt
+      owner
     }
   }
 `;
 export const onUpdateAdminNotification = /* GraphQL */ `
-  subscription OnUpdateAdminNotification {
-    onUpdateAdminNotification {
+  subscription OnUpdateAdminNotification($owner: String) {
+    onUpdateAdminNotification(owner: $owner) {
       id
-      type
       title
       subtitle
       content
-      data
-      _version
-      _deleted
-      _lastChangedAt
+      status
       createdAt
       updatedAt
+      owner
     }
   }
 `;
 export const onDeleteAdminNotification = /* GraphQL */ `
-  subscription OnDeleteAdminNotification {
-    onDeleteAdminNotification {
+  subscription OnDeleteAdminNotification($owner: String) {
+    onDeleteAdminNotification(owner: $owner) {
       id
-      type
       title
       subtitle
       content
-      data
-      _version
-      _deleted
-      _lastChangedAt
+      status
       createdAt
       updatedAt
+      owner
     }
   }
 `;
-
 export const onCreateBook = /* GraphQL */ `
   subscription OnCreateBook {
     onCreateBook {
       id
-      isbn
       title
       subject
       publisher
       language
       edition
-      no_of_pages
       copies_present
       copies_issued
-      _version
-      _deleted
-      _lastChangedAt
       createdAt
       updatedAt
       BookItems {
         nextToken
-        startedAt
       }
       Authors {
         nextToken
-        startedAt
       }
     }
   }
@@ -138,27 +111,20 @@ export const onUpdateBook = /* GraphQL */ `
   subscription OnUpdateBook {
     onUpdateBook {
       id
-      isbn
       title
       subject
       publisher
       language
       edition
-      no_of_pages
       copies_present
       copies_issued
-      _version
-      _deleted
-      _lastChangedAt
       createdAt
       updatedAt
       BookItems {
         nextToken
-        startedAt
       }
       Authors {
         nextToken
-        startedAt
       }
     }
   }
@@ -167,49 +133,53 @@ export const onDeleteBook = /* GraphQL */ `
   subscription OnDeleteBook {
     onDeleteBook {
       id
-      isbn
       title
       subject
       publisher
       language
       edition
-      no_of_pages
       copies_present
       copies_issued
-      _version
-      _deleted
-      _lastChangedAt
       createdAt
       updatedAt
       BookItems {
         nextToken
-        startedAt
       }
       Authors {
         nextToken
-        startedAt
       }
     }
   }
 `;
-
 export const onCreateBookItem = /* GraphQL */ `
   subscription OnCreateBookItem {
     onCreateBookItem {
       id
-      price
       status
-      added_on
       rackID
       bookID
-      _version
-      _deleted
-      _lastChangedAt
       createdAt
       updatedAt
+      book {
+        id
+        title
+        subject
+        publisher
+        language
+        edition
+        copies_present
+        copies_issued
+        createdAt
+        updatedAt
+      }
+      rack {
+        id
+        name
+        createdAt
+        updatedAt
+      }
       Transactions {
         nextToken
-        startedAt
       }
     }
   }
@@ -218,19 +188,31 @@ export const onUpdateBookItem = /* GraphQL */ `
   subscription OnUpdateBookItem {
     onUpdateBookItem {
       id
-      price
       status
-      added_on
       rackID
       bookID
-      _version
-      _deleted
-      _lastChangedAt
       createdAt
       updatedAt
+      book {
+        id
+        title
+        subject
+        publisher
+        language
+        edition
+        copies_present
+        copies_issued
+        createdAt
+        updatedAt
+      }
+      rack {
+        id
+        name
+        createdAt
+        updatedAt
+      }
       Transactions {
         nextToken
-        startedAt
       }
     }
   }
@@ -239,39 +221,44 @@ export const onDeleteBookItem = /* GraphQL */ `
   subscription OnDeleteBookItem {
     onDeleteBookItem {
       id
-      price
       status
-      added_on
       rackID
       bookID
-      _version
-      _deleted
-      _lastChangedAt
       createdAt
       updatedAt
+      book {
+        id
+        title
+        subject
+        publisher
+        language
+        edition
+        copies_present
+        copies_issued
+        createdAt
+        updatedAt
+      }
+      rack {
+        id
+        name
+        createdAt
+        updatedAt
+      }
       Transactions {
         nextToken
-        startedAt
       }
     }
   }
 `;
-
 export const onCreateRack = /* GraphQL */ `
   subscription OnCreateRack {
     onCreateRack {
       id
-      number
-      location
-      recently_used
-      _version
-      _deleted
-      _lastChangedAt
+      name
       createdAt
       updatedAt
       BookItems {
         nextToken
-        startedAt
       }
     }
   }
@@ -280,17 +267,11 @@ export const onUpdateRack = /* GraphQL */ `
   subscription OnUpdateRack {
     onUpdateRack {
       id
-      number
-      location
-      recently_used
-      _version
-      _deleted
-      _lastChangedAt
+      name
       createdAt
       updatedAt
       BookItems {
         nextToken
-        startedAt
       }
     }
   }
@@ -299,36 +280,24 @@ export const onDeleteRack = /* GraphQL */ `
   subscription OnDeleteRack {
     onDeleteRack {
       id
-      number
-      location
-      recently_used
-      _version
-      _deleted
-      _lastChangedAt
+      name
       createdAt
       updatedAt
       BookItems {
         nextToken
-        startedAt
       }
     }
   }
 `;
-
 export const onCreateAuthor = /* GraphQL */ `
   subscription OnCreateAuthor {
     onCreateAuthor {
       id
       name
-      description
-      _version
-      _deleted
-      _lastChangedAt
       createdAt
       updatedAt
       books {
         nextToken
-        startedAt
       }
     }
   }
@@ -338,15 +307,10 @@ export const onUpdateAuthor = /* GraphQL */ `
     onUpdateAuthor {
       id
       name
-      description
-      _version
-      _deleted
-      _lastChangedAt
       createdAt
       updatedAt
       books {
         nextToken
-        startedAt
       }
     }
   }
@@ -356,46 +320,27 @@ export const onDeleteAuthor = /* GraphQL */ `
     onDeleteAuthor {
       id
       name
-      description
-      _version
-      _deleted
-      _lastChangedAt
       createdAt
       updatedAt
       books {
         nextToken
-        startedAt
       }
     }
   }
 `;
-
 export const onCreateBarcode = /* GraphQL */ `
   subscription OnCreateBarcode {
     onCreateBarcode {
       id
-      code
       status
-      created_at
-      _version
-      _deleted
-      _lastChangedAt
+      bookItemID
       createdAt
       updatedAt
-      Book {
+      bookItem {
         id
-        isbn
-        title
-        subject
-        publisher
-        language
-        edition
-        no_of_pages
-        copies_present
-        copies_issued
-        _version
-        _deleted
-        _lastChangedAt
+        status
+        rackID
+        bookID
         createdAt
         updatedAt
       }
@@ -406,28 +351,15 @@ export const onUpdateBarcode = /* GraphQL */ `
   subscription OnUpdateBarcode {
     onUpdateBarcode {
       id
-      code
       status
-      created_at
-      _version
-      _deleted
-      _lastChangedAt
+      bookItemID
       createdAt
       updatedAt
-      Book {
+      bookItem {
         id
-        isbn
-        title
-        subject
-        publisher
-        language
-        edition
-        no_of_pages
-        copies_present
-        copies_issued
-        _version
-        _deleted
-        _lastChangedAt
+        status
+        rackID
+        bookID
         createdAt
         updatedAt
       }
@@ -438,174 +370,113 @@ export const onDeleteBarcode = /* GraphQL */ `
   subscription OnDeleteBarcode {
     onDeleteBarcode {
       id
-      code
       status
-      created_at
-      _version
-      _deleted
-      _lastChangedAt
+      bookItemID
       createdAt
       updatedAt
-      Book {
+      bookItem {
         id
-        isbn
-        title
-        subject
-        publisher
-        language
-        edition
-        no_of_pages
-        copies_present
-        copies_issued
-        _version
-        _deleted
-        _lastChangedAt
+        status
+        rackID
+        bookID
         createdAt
         updatedAt
       }
     }
   }
 `;
-
-export const onCreateCard = /* GraphQL */ `
-  subscription OnCreateCard {
-    onCreateCard {
-      id
-      card_number
-      img_path
-      status
-      issued_on
-      username
-      _version
-      _deleted
-      _lastChangedAt
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const onUpdateCard = /* GraphQL */ `
-  subscription OnUpdateCard {
-    onUpdateCard {
-      id
-      card_number
-      img_path
-      status
-      issued_on
-      username
-      _version
-      _deleted
-      _lastChangedAt
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const onDeleteCard = /* GraphQL */ `
-  subscription OnDeleteCard {
-    onDeleteCard {
-      id
-      card_number
-      img_path
-      status
-      issued_on
-      username
-      _version
-      _deleted
-      _lastChangedAt
-      createdAt
-      updatedAt
-    }
-  }
-`;
-
 export const onCreateTransaction = /* GraphQL */ `
-  subscription OnCreateTransaction {
-    onCreateTransaction {
+  subscription OnCreateTransaction($owner: String, $username: String) {
+    onCreateTransaction(owner: $owner, username: $username) {
       id
-      issue_date
+      username
       due_date
+      fine
       status
       bookitemID
-      Username
-      _version
-      _deleted
-      _lastChangedAt
       createdAt
       updatedAt
+      book {
+        id
+        status
+        rackID
+        bookID
+        createdAt
+        updatedAt
+      }
+      owner
     }
   }
 `;
 export const onUpdateTransaction = /* GraphQL */ `
-  subscription OnUpdateTransaction {
-    onUpdateTransaction {
+  subscription OnUpdateTransaction($owner: String, $username: String) {
+    onUpdateTransaction(owner: $owner, username: $username) {
       id
-      issue_date
+      username
       due_date
+      fine
       status
       bookitemID
-      Username
-      _version
-      _deleted
-      _lastChangedAt
       createdAt
       updatedAt
+      book {
+        id
+        status
+        rackID
+        bookID
+        createdAt
+        updatedAt
+      }
+      owner
     }
   }
 `;
 export const onDeleteTransaction = /* GraphQL */ `
-  subscription OnDeleteTransaction {
-    onDeleteTransaction {
+  subscription OnDeleteTransaction($owner: String, $username: String) {
+    onDeleteTransaction(owner: $owner, username: $username) {
       id
-      issue_date
+      username
       due_date
+      fine
       status
       bookitemID
-      Username
-      _version
-      _deleted
-      _lastChangedAt
       createdAt
       updatedAt
+      book {
+        id
+        status
+        rackID
+        bookID
+        createdAt
+        updatedAt
+      }
+      owner
     }
   }
 `;
-
 export const onCreateBookAuthor = /* GraphQL */ `
   subscription OnCreateBookAuthor {
     onCreateBookAuthor {
       id
       bookID
       authorID
-      _version
-      _deleted
-      _lastChangedAt
       createdAt
       updatedAt
       book {
         id
-        isbn
         title
         subject
         publisher
         language
         edition
-        no_of_pages
         copies_present
         copies_issued
-        _version
-        _deleted
-        _lastChangedAt
         createdAt
         updatedAt
       }
       author {
         id
         name
-        description
-        _version
-        _deleted
-        _lastChangedAt
         createdAt
         updatedAt
       }
@@ -618,35 +489,23 @@ export const onUpdateBookAuthor = /* GraphQL */ `
       id
       bookID
       authorID
-      _version
-      _deleted
-      _lastChangedAt
       createdAt
       updatedAt
       book {
         id
-        isbn
         title
         subject
         publisher
         language
         edition
-        no_of_pages
         copies_present
         copies_issued
-        _version
-        _deleted
-        _lastChangedAt
         createdAt
         updatedAt
       }
       author {
         id
         name
-        description
-        _version
-        _deleted
-        _lastChangedAt
         createdAt
         updatedAt
       }
@@ -659,35 +518,23 @@ export const onDeleteBookAuthor = /* GraphQL */ `
       id
       bookID
       authorID
-      _version
-      _deleted
-      _lastChangedAt
       createdAt
       updatedAt
       book {
         id
-        isbn
         title
         subject
         publisher
         language
         edition
-        no_of_pages
         copies_present
         copies_issued
-        _version
-        _deleted
-        _lastChangedAt
         createdAt
         updatedAt
       }
       author {
         id
         name
-        description
-        _version
-        _deleted
-        _lastChangedAt
         createdAt
         updatedAt
       }

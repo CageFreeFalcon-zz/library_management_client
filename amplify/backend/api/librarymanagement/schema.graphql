@@ -1,108 +1,137 @@
-type UserNotification @model @auth(rules: [{allow: public}]) {
+type UserNotification @model
+@auth(rules: [
+    { allow: owner, ownerField: "username" },
+    { allow: groups, groups: ["librarians"]}
+]) {
   id: ID!
-  title: String
+  title: String!
   subtitle: String
-  content: AWSJSON
-  img_path: AWSURL
-  userna: String
+  content: String!
+  username: String!
+  status: Notification_Status
 }
 
-type AdminNotification @model @auth(rules: [{allow: public}]) {
+type AdminNotification @model
+@auth(rules: [
+    { allow: owner},
+    { allow: groups, groups: ["librarians"]}
+]) {
   id: ID!
-  type: String
-  title: String
+  title: String!
   subtitle: String
-  content: String
-  data: AWSJSON
+  content: String!
+  status: Notification_Status
 }
 
-type Book @model @auth(rules: [{allow: public}]) {
+type Book @model
+@searchable(queries: { search: "searchBook" })
+@auth(rules: [
+    { allow: groups, groups: ["librarians"] },
+    { allow: groups, groups: ["students", "requests"], operations: [read] }
+]) {
   id: ID!
-  isbn: String!
   title: String!
   subject: String!
   publisher: String!
   language: String!
   edition: String!
-  no_of_pages: Int
-  copies_present: Int!
-  copies_issued: Int!
+  copies_present: Int
+  copies_issued: Int
   BookItems: [BookItem] @connection(keyName: "byBook", fields: ["id"])
   Authors: [BookAuthor] @connection(keyName: "byBook", fields: ["id"])
 }
 
-type BookItem @model @auth(rules: [{allow: public}]) @key(name: "byRack", fields: ["rackID"]) @key(name: "byBook", fields: ["bookID"]) {
+type BookItem @model
+@auth(rules: [
+    {allow: groups, groups: ["librarians"] },
+    { allow: groups, groups: ["students"], operations: [read] }
+])
+@key(name: "byRack", fields: ["rackID"])
+@key(name: "byBook", fields: ["bookID"]) {
   id: ID!
-  price: Int!
   status: Book_Status!
-  added_on: AWSDate!
-  rackID: ID!
   Transactions: [Transaction] @connection(keyName: "byBookItem", fields: ["id"])
+  rackID: ID!
   bookID: ID!
+  book: Book @connection(fields: ["bookID"])
+  rack: Rack @connection(fields: ["rackID"])
 }
 
-type Rack @model @auth(rules: [{allow: public}]) {
+type Rack @model
+@auth(rules: [{allow: groups, groups: ["librarians"] }]) {
   id: ID!
-  number: String!
-  location: String!
-  recently_used: Boolean
+  name: String!
   BookItems: [BookItem] @connection(keyName: "byRack", fields: ["id"])
 }
 
-type Author @model @auth(rules: [{allow: public}]) {
+type Author @model
+@searchable(queries: { search: "searchAuthor" })
+@auth(rules: [
+    {allow: groups, groups: ["librarians"] },
+    { allow: groups, groups: ["students", "requests"], operations: [read] }
+]) {
   id: ID!
   name: String
-  description: String
   books: [BookAuthor] @connection(keyName: "byAuthor", fields: ["id"])
 }
 
-type Barcode @model @auth(rules: [{allow: public}]) {
+type Barcode @model
+@auth(rules: [{allow: groups, groups: ["librarians"] }]) {
   id: ID!
-  code: String!
-  status: Barcode_status!
-  created_at: AWSDate!
-  Book: Book @connection
+  status: Barcode_Status!
+  bookItemID: ID
+  bookItem: BookItem @connection(fields: ["bookItemID"])
 }
 
-type Card @model @auth(rules: [{allow: public}]) {
+type Transaction @model
+@auth(rules: [
+    { allow: owner}
+    { allow: owner, ownerField: "username", operations: [read] }
+    { allow: groups, groups: ["librarians"] },
+])
+@key(name: "byUsername", fields: ["username"], queryField: "transactionByUser")
+@key(name: "byBookItem", fields: ["bookitemID"]) {
   id: ID!
-  card_number: Int!
-  img_path: AWSURL!
-  status: Card_Status!
-  issued_on: AWSDate!
-  username: String
-}
-
-type Transaction @model @auth(rules: [{allow: public}]) @key(name: "byBookItem", fields: ["bookitemID"]) {
-  id: ID!
-  issue_date: AWSDate!
+  username: String!
   due_date: AWSDate!
-  status: String!
+  fine: Int
+  status: Transaction_Status!
   bookitemID: ID!
-  Username: String
+  book: BookItem @connection(fields: ["bookitemID"])
 }
 
-enum Book_Status {
-  ISSUED
-  NOTISSUED
-  LOST
-}
-
-enum Card_Status {
-  ISSUED
-  DEPRICATED
-}
-
-enum Barcode_status {
-  USED
-  UNUSED
-}
-
-type BookAuthor @model(queries: null) @key(name: "byBook", fields: ["bookID", "authorID"]) @key(name: "byAuthor", fields: ["authorID", "bookID"]) @auth(rules: [{allow: public}, {allow: public}]) {
+type BookAuthor @model
+@auth(rules: [
+    { allow: groups, groups: ["librarians"] },
+    { allow: groups, groups: ["students", "requests"], operations: [read] }
+])
+@key(name: "byBook", fields: ["bookID", "authorID"])
+@key(name: "byAuthor", fields: ["authorID", "bookID"]) {
   id: ID!
   bookID: ID!
   authorID: ID!
   book: Book! @connection(fields: ["bookID"])
   author: Author! @connection(fields: ["authorID"])
+}
+
+enum Book_Status {
+  NOTISSUED
+  ISSUED
+  LOST
+}
+
+enum Barcode_Status {
+  UNUSED
+  USED
+}
+
+enum Notification_Status {
+  UNREAD
+  READ
+}
+
+enum Transaction_Status {
+  ISSUED
+  RETURNED
 }
  

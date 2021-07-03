@@ -14,7 +14,7 @@ export const schema = {
           name: "title",
           isArray: false,
           type: "String",
-          isRequired: false,
+          isRequired: true,
           attributes: [],
         },
         subtitle: {
@@ -27,21 +27,23 @@ export const schema = {
         content: {
           name: "content",
           isArray: false,
-          type: "AWSJSON",
-          isRequired: false,
+          type: "String",
+          isRequired: true,
           attributes: [],
         },
-        img_path: {
-          name: "img_path",
-          isArray: false,
-          type: "AWSURL",
-          isRequired: false,
-          attributes: [],
-        },
-        userna: {
-          name: "userna",
+        username: {
+          name: "username",
           isArray: false,
           type: "String",
+          isRequired: true,
+          attributes: [],
+        },
+        status: {
+          name: "status",
+          isArray: false,
+          type: {
+            enum: "NotificationStatus",
+          },
           isRequired: false,
           attributes: [],
         },
@@ -58,7 +60,17 @@ export const schema = {
           properties: {
             rules: [
               {
-                allow: "public",
+                provider: "userPools",
+                ownerField: "username",
+                allow: "owner",
+                identityClaim: "cognito:username",
+                operations: ["create", "update", "delete", "read"],
+              },
+              {
+                groupClaim: "cognito:groups",
+                provider: "userPools",
+                allow: "groups",
+                groups: ["librarians"],
                 operations: ["create", "update", "delete", "read"],
               },
             ],
@@ -76,18 +88,11 @@ export const schema = {
           isRequired: true,
           attributes: [],
         },
-        type: {
-          name: "type",
-          isArray: false,
-          type: "String",
-          isRequired: false,
-          attributes: [],
-        },
         title: {
           name: "title",
           isArray: false,
           type: "String",
-          isRequired: false,
+          isRequired: true,
           attributes: [],
         },
         subtitle: {
@@ -101,13 +106,15 @@ export const schema = {
           name: "content",
           isArray: false,
           type: "String",
-          isRequired: false,
+          isRequired: true,
           attributes: [],
         },
-        data: {
-          name: "data",
+        status: {
+          name: "status",
           isArray: false,
-          type: "AWSJSON",
+          type: {
+            enum: "NotificationStatus",
+          },
           isRequired: false,
           attributes: [],
         },
@@ -124,7 +131,17 @@ export const schema = {
           properties: {
             rules: [
               {
-                allow: "public",
+                provider: "userPools",
+                ownerField: "owner",
+                allow: "owner",
+                identityClaim: "cognito:username",
+                operations: ["create", "update", "delete", "read"],
+              },
+              {
+                groupClaim: "cognito:groups",
+                provider: "userPools",
+                allow: "groups",
+                groups: ["librarians"],
                 operations: ["create", "update", "delete", "read"],
               },
             ],
@@ -139,13 +156,6 @@ export const schema = {
           name: "id",
           isArray: false,
           type: "ID",
-          isRequired: true,
-          attributes: [],
-        },
-        isbn: {
-          name: "isbn",
-          isArray: false,
-          type: "String",
           isRequired: true,
           attributes: [],
         },
@@ -184,25 +194,18 @@ export const schema = {
           isRequired: true,
           attributes: [],
         },
-        no_of_pages: {
-          name: "no_of_pages",
-          isArray: false,
-          type: "Int",
-          isRequired: false,
-          attributes: [],
-        },
         copies_present: {
           name: "copies_present",
           isArray: false,
           type: "Int",
-          isRequired: true,
+          isRequired: false,
           attributes: [],
         },
         copies_issued: {
           name: "copies_issued",
           isArray: false,
           type: "Int",
-          isRequired: true,
+          isRequired: false,
           attributes: [],
         },
         BookItems: {
@@ -216,7 +219,7 @@ export const schema = {
           isArrayNullable: true,
           association: {
             connectionType: "HAS_MANY",
-            associatedWith: "bookID",
+            associatedWith: "book",
           },
         },
         Authors: {
@@ -242,12 +245,30 @@ export const schema = {
           properties: {},
         },
         {
+          type: "searchable",
+          properties: {
+            queries: {
+              search: "searchBook",
+            },
+          },
+        },
+        {
           type: "auth",
           properties: {
             rules: [
               {
-                allow: "public",
+                groupClaim: "cognito:groups",
+                provider: "userPools",
+                allow: "groups",
+                groups: ["librarians"],
                 operations: ["create", "update", "delete", "read"],
+              },
+              {
+                groupClaim: "cognito:groups",
+                provider: "userPools",
+                allow: "groups",
+                groups: ["students", "requests"],
+                operations: ["read"],
               },
             ],
           },
@@ -264,33 +285,12 @@ export const schema = {
           isRequired: true,
           attributes: [],
         },
-        price: {
-          name: "price",
-          isArray: false,
-          type: "Int",
-          isRequired: true,
-          attributes: [],
-        },
         status: {
           name: "status",
           isArray: false,
           type: {
             enum: "BookStatus",
           },
-          isRequired: true,
-          attributes: [],
-        },
-        added_on: {
-          name: "added_on",
-          isArray: false,
-          type: "AWSDate",
-          isRequired: true,
-          attributes: [],
-        },
-        rackID: {
-          name: "rackID",
-          isArray: false,
-          type: "ID",
           isRequired: true,
           attributes: [],
         },
@@ -305,15 +305,34 @@ export const schema = {
           isArrayNullable: true,
           association: {
             connectionType: "HAS_MANY",
-            associatedWith: "bookitemID",
+            associatedWith: "book",
           },
         },
-        bookID: {
-          name: "bookID",
+        book: {
+          name: "book",
           isArray: false,
-          type: "ID",
-          isRequired: true,
+          type: {
+            model: "Book",
+          },
+          isRequired: false,
           attributes: [],
+          association: {
+            connectionType: "BELONGS_TO",
+            targetName: "bookID",
+          },
+        },
+        rack: {
+          name: "rack",
+          isArray: false,
+          type: {
+            model: "Rack",
+          },
+          isRequired: false,
+          attributes: [],
+          association: {
+            connectionType: "BELONGS_TO",
+            targetName: "rackID",
+          },
         },
       },
       syncable: true,
@@ -342,8 +361,18 @@ export const schema = {
           properties: {
             rules: [
               {
-                allow: "public",
+                groupClaim: "cognito:groups",
+                provider: "userPools",
+                allow: "groups",
+                groups: ["librarians"],
                 operations: ["create", "update", "delete", "read"],
+              },
+              {
+                groupClaim: "cognito:groups",
+                provider: "userPools",
+                allow: "groups",
+                groups: ["students"],
+                operations: ["read"],
               },
             ],
           },
@@ -360,10 +389,10 @@ export const schema = {
           isRequired: true,
           attributes: [],
         },
-        issue_date: {
-          name: "issue_date",
+        username: {
+          name: "username",
           isArray: false,
-          type: "AWSDate",
+          type: "String",
           isRequired: true,
           attributes: [],
         },
@@ -374,26 +403,34 @@ export const schema = {
           isRequired: true,
           attributes: [],
         },
+        fine: {
+          name: "fine",
+          isArray: false,
+          type: "Int",
+          isRequired: false,
+          attributes: [],
+        },
         status: {
           name: "status",
           isArray: false,
-          type: "String",
+          type: {
+            enum: "TransactionStatus",
+          },
           isRequired: true,
           attributes: [],
         },
-        bookitemID: {
-          name: "bookitemID",
+        book: {
+          name: "book",
           isArray: false,
-          type: "ID",
-          isRequired: true,
-          attributes: [],
-        },
-        Username: {
-          name: "Username",
-          isArray: false,
-          type: "String",
+          type: {
+            model: "BookItem",
+          },
           isRequired: false,
           attributes: [],
+          association: {
+            connectionType: "BELONGS_TO",
+            targetName: "bookitemID",
+          },
         },
       },
       syncable: true,
@@ -402,6 +439,14 @@ export const schema = {
         {
           type: "model",
           properties: {},
+        },
+        {
+          type: "key",
+          properties: {
+            name: "byUsername",
+            fields: ["username"],
+            queryField: "transactionByUser",
+          },
         },
         {
           type: "key",
@@ -415,7 +460,79 @@ export const schema = {
           properties: {
             rules: [
               {
-                allow: "public",
+                provider: "userPools",
+                ownerField: "owner",
+                allow: "owner",
+                identityClaim: "cognito:username",
+                operations: ["create", "update", "delete", "read"],
+              },
+              {
+                provider: "userPools",
+                ownerField: "username",
+                allow: "owner",
+                operations: ["read"],
+                identityClaim: "cognito:username",
+              },
+              {
+                groupClaim: "cognito:groups",
+                provider: "userPools",
+                allow: "groups",
+                groups: ["librarians"],
+                operations: ["create", "update", "delete", "read"],
+              },
+            ],
+          },
+        },
+      ],
+    },
+    Rack: {
+      name: "Rack",
+      fields: {
+        id: {
+          name: "id",
+          isArray: false,
+          type: "ID",
+          isRequired: true,
+          attributes: [],
+        },
+        name: {
+          name: "name",
+          isArray: false,
+          type: "String",
+          isRequired: true,
+          attributes: [],
+        },
+        BookItems: {
+          name: "BookItems",
+          isArray: true,
+          type: {
+            model: "BookItem",
+          },
+          isRequired: false,
+          attributes: [],
+          isArrayNullable: true,
+          association: {
+            connectionType: "HAS_MANY",
+            associatedWith: "rack",
+          },
+        },
+      },
+      syncable: true,
+      pluralName: "Racks",
+      attributes: [
+        {
+          type: "model",
+          properties: {},
+        },
+        {
+          type: "auth",
+          properties: {
+            rules: [
+              {
+                groupClaim: "cognito:groups",
+                provider: "userPools",
+                allow: "groups",
+                groups: ["librarians"],
                 operations: ["create", "update", "delete", "read"],
               },
             ],
@@ -465,9 +582,7 @@ export const schema = {
       attributes: [
         {
           type: "model",
-          properties: {
-            queries: null,
-          },
+          properties: {},
         },
         {
           type: "key",
@@ -488,12 +603,18 @@ export const schema = {
           properties: {
             rules: [
               {
-                allow: "public",
+                groupClaim: "cognito:groups",
+                provider: "userPools",
+                allow: "groups",
+                groups: ["librarians"],
                 operations: ["create", "update", "delete", "read"],
               },
               {
-                allow: "public",
-                operations: ["create", "update", "delete", "read"],
+                groupClaim: "cognito:groups",
+                provider: "userPools",
+                allow: "groups",
+                groups: ["students", "requests"],
+                operations: ["read"],
               },
             ],
           },
@@ -512,13 +633,6 @@ export const schema = {
         },
         name: {
           name: "name",
-          isArray: false,
-          type: "String",
-          isRequired: false,
-          attributes: [],
-        },
-        description: {
-          name: "description",
           isArray: false,
           type: "String",
           isRequired: false,
@@ -547,78 +661,30 @@ export const schema = {
           properties: {},
         },
         {
+          type: "searchable",
+          properties: {
+            queries: {
+              search: "searchAuthor",
+            },
+          },
+        },
+        {
           type: "auth",
           properties: {
             rules: [
               {
-                allow: "public",
+                groupClaim: "cognito:groups",
+                provider: "userPools",
+                allow: "groups",
+                groups: ["librarians"],
                 operations: ["create", "update", "delete", "read"],
               },
-            ],
-          },
-        },
-      ],
-    },
-    Rack: {
-      name: "Rack",
-      fields: {
-        id: {
-          name: "id",
-          isArray: false,
-          type: "ID",
-          isRequired: true,
-          attributes: [],
-        },
-        number: {
-          name: "number",
-          isArray: false,
-          type: "String",
-          isRequired: true,
-          attributes: [],
-        },
-        location: {
-          name: "location",
-          isArray: false,
-          type: "String",
-          isRequired: true,
-          attributes: [],
-        },
-        recently_used: {
-          name: "recently_used",
-          isArray: false,
-          type: "Boolean",
-          isRequired: false,
-          attributes: [],
-        },
-        BookItems: {
-          name: "BookItems",
-          isArray: true,
-          type: {
-            model: "BookItem",
-          },
-          isRequired: false,
-          attributes: [],
-          isArrayNullable: true,
-          association: {
-            connectionType: "HAS_MANY",
-            associatedWith: "rackID",
-          },
-        },
-      },
-      syncable: true,
-      pluralName: "Racks",
-      attributes: [
-        {
-          type: "model",
-          properties: {},
-        },
-        {
-          type: "auth",
-          properties: {
-            rules: [
               {
-                allow: "public",
-                operations: ["create", "update", "delete", "read"],
+                groupClaim: "cognito:groups",
+                provider: "userPools",
+                allow: "groups",
+                groups: ["students", "requests"],
+                operations: ["read"],
               },
             ],
           },
@@ -635,13 +701,6 @@ export const schema = {
           isRequired: true,
           attributes: [],
         },
-        code: {
-          name: "code",
-          isArray: false,
-          type: "String",
-          isRequired: true,
-          attributes: [],
-        },
         status: {
           name: "status",
           isArray: false,
@@ -651,24 +710,17 @@ export const schema = {
           isRequired: true,
           attributes: [],
         },
-        created_at: {
-          name: "created_at",
-          isArray: false,
-          type: "AWSDate",
-          isRequired: true,
-          attributes: [],
-        },
-        Book: {
-          name: "Book",
+        bookItem: {
+          name: "bookItem",
           isArray: false,
           type: {
-            model: "Book",
+            model: "BookItem",
           },
           isRequired: false,
           attributes: [],
           association: {
             connectionType: "BELONGS_TO",
-            targetName: "barcodeBookId",
+            targetName: "bookItemID",
           },
         },
       },
@@ -684,75 +736,10 @@ export const schema = {
           properties: {
             rules: [
               {
-                allow: "public",
-                operations: ["create", "update", "delete", "read"],
-              },
-            ],
-          },
-        },
-      ],
-    },
-    Card: {
-      name: "Card",
-      fields: {
-        id: {
-          name: "id",
-          isArray: false,
-          type: "ID",
-          isRequired: true,
-          attributes: [],
-        },
-        card_number: {
-          name: "card_number",
-          isArray: false,
-          type: "Int",
-          isRequired: true,
-          attributes: [],
-        },
-        img_path: {
-          name: "img_path",
-          isArray: false,
-          type: "AWSURL",
-          isRequired: true,
-          attributes: [],
-        },
-        status: {
-          name: "status",
-          isArray: false,
-          type: {
-            enum: "CardStatus",
-          },
-          isRequired: true,
-          attributes: [],
-        },
-        issued_on: {
-          name: "issued_on",
-          isArray: false,
-          type: "AWSDate",
-          isRequired: true,
-          attributes: [],
-        },
-        username: {
-          name: "username",
-          isArray: false,
-          type: "String",
-          isRequired: false,
-          attributes: [],
-        },
-      },
-      syncable: true,
-      pluralName: "Cards",
-      attributes: [
-        {
-          type: "model",
-          properties: {},
-        },
-        {
-          type: "auth",
-          properties: {
-            rules: [
-              {
-                allow: "public",
+                groupClaim: "cognito:groups",
+                provider: "userPools",
+                allow: "groups",
+                groups: ["librarians"],
                 operations: ["create", "update", "delete", "read"],
               },
             ],
@@ -762,19 +749,23 @@ export const schema = {
     },
   },
   enums: {
+    NotificationStatus: {
+      name: "NotificationStatus",
+      values: ["UNREAD", "READ"],
+    },
     BookStatus: {
       name: "BookStatus",
-      values: ["ISSUED", "NOTISSUED", "LOST"],
+      values: ["NOTISSUED", "ISSUED", "LOST"],
+    },
+    TransactionStatus: {
+      name: "TransactionStatus",
+      values: ["ISSUED", "RETURNED"],
     },
     BarcodeStatus: {
       name: "BarcodeStatus",
-      values: ["USED", "UNUSED"],
-    },
-    CardStatus: {
-      name: "CardStatus",
-      values: ["ISSUED", "DEPRICATED"],
+      values: ["UNUSED", "USED"],
     },
   },
   nonModels: {},
-  version: "cc13fc9e49e46ac1ad9bddd665a0c095",
+  version: "32d1ae56c95a1549219eab4a00d823d5",
 };

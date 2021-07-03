@@ -2,5 +2,11 @@
   "AppSyncApiName": "librarymanagement",
   "DynamoDBBillingMode": "PAY_PER_REQUEST",
   "DynamoDBEnableServerSideEncryption": false,
-  "CreateAPIKey": 1
+  "CreateAPIKey": 1,
+  "AuthCognitoUserPoolId": {
+    "Fn::GetAtt": [
+      "authlibrarymanagement6e08d28c6e08d28c",
+      "Outputs.UserPoolId"
+    ]
+  }
 }

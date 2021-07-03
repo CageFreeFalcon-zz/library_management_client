@@ -11,11 +11,8 @@ export const createUserNotification = /* GraphQL */ `
       title
       subtitle
       content
-      img_path
-      userna
-      _version
-      _deleted
-      _lastChangedAt
+      username
+      status
       createdAt
       updatedAt
     }
@@ -31,11 +28,8 @@ export const updateUserNotification = /* GraphQL */ `
       title
       subtitle
       content
-      img_path
-      userna
-      _version
-      _deleted
-      _lastChangedAt
+      username
+      status
       createdAt
       updatedAt
     }
@@ -51,17 +45,13 @@ export const deleteUserNotification = /* GraphQL */ `
       title
       subtitle
       content
-      img_path
-      userna
-      _version
-      _deleted
-      _lastChangedAt
+      username
+      status
       createdAt
       updatedAt
     }
   }
 `;
-
 export const createAdminNotification = /* GraphQL */ `
   mutation CreateAdminNotification(
     $input: CreateAdminNotificationInput!
@@ -69,16 +59,13 @@ export const createAdminNotification = /* GraphQL */ `
   ) {
     createAdminNotification(input: $input, condition: $condition) {
       id
-      type
       title
       subtitle
       content
-      data
-      _version
-      _deleted
-      _lastChangedAt
+      status
       createdAt
       updatedAt
+      owner
     }
   }
 `;
@@ -89,16 +76,13 @@ export const updateAdminNotification = /* GraphQL */ `
   ) {
     updateAdminNotification(input: $input, condition: $condition) {
       id
-      type
       title
       subtitle
       content
-      data
-      _version
-      _deleted
-      _lastChangedAt
+      status
       createdAt
       updatedAt
+      owner
     }
   }
 `;
@@ -109,20 +93,16 @@ export const deleteAdminNotification = /* GraphQL */ `
   ) {
     deleteAdminNotification(input: $input, condition: $condition) {
       id
-      type
       title
       subtitle
       content
-      data
-      _version
-      _deleted
-      _lastChangedAt
+      status
       createdAt
       updatedAt
+      owner
     }
   }
 `;
-
 export const createBook = /* GraphQL */ `
   mutation CreateBook(
     $input: CreateBookInput!
@@ -130,27 +110,20 @@ export const createBook = /* GraphQL */ `
   ) {
     createBook(input: $input, condition: $condition) {
       id
-      isbn
       title
       subject
       publisher
       language
       edition
-      no_of_pages
       copies_present
       copies_issued
-      _version
-      _deleted
-      _lastChangedAt
       createdAt
       updatedAt
       BookItems {
         nextToken
-        startedAt
       }
       Authors {
         nextToken
-        startedAt
       }
     }
   }
@@ -162,27 +135,20 @@ export const updateBook = /* GraphQL */ `
   ) {
     updateBook(input: $input, condition: $condition) {
       id
-      isbn
       title
       subject
       publisher
       language
       edition
-      no_of_pages
       copies_present
       copies_issued
-      _version
-      _deleted
-      _lastChangedAt
       createdAt
       updatedAt
       BookItems {
         nextToken
-        startedAt
       }
       Authors {
         nextToken
-        startedAt
       }
     }
   }
@@ -194,32 +160,24 @@ export const deleteBook = /* GraphQL */ `
   ) {
     deleteBook(input: $input, condition: $condition) {
       id
-      isbn
       title
       subject
       publisher
       language
       edition
-      no_of_pages
       copies_present
       copies_issued
-      _version
-      _deleted
-      _lastChangedAt
       createdAt
       updatedAt
       BookItems {
         nextToken
-        startedAt
       }
       Authors {
         nextToken
-        startedAt
       }
     }
   }
 `;
-
 export const createBookItem = /* GraphQL */ `
   mutation CreateBookItem(
     $input: CreateBookItemInput!
@@ -227,19 +185,31 @@ export const createBookItem = /* GraphQL */ `
   ) {
     createBookItem(input: $input, condition: $condition) {
       id
-      price
       status
-      added_on
       rackID
       bookID
-      _version
-      _deleted
-      _lastChangedAt
       createdAt
       updatedAt
+      book {
+        id
+        title
+        subject
+        publisher
+        language
+        edition
+        copies_present
+        copies_issued
+        createdAt
+        updatedAt
+      }
+      rack {
+        id
+        name
+        createdAt
+        updatedAt
+      }
       Transactions {
         nextToken
-        startedAt
       }
     }
   }
@@ -251,19 +221,31 @@ export const updateBookItem = /* GraphQL */ `
   ) {
     updateBookItem(input: $input, condition: $condition) {
       id
-      price
       status
-      added_on
       rackID
       bookID
-      _version
-      _deleted
-      _lastChangedAt
       createdAt
       updatedAt
+      book {
+        id
+        title
+        subject
+        publisher
+        language
+        edition
+        copies_present
+        copies_issued
+        createdAt
+        updatedAt
+      }
+      rack {
+        id
+        name
+        createdAt
+        updatedAt
+      }
       Transactions {
         nextToken
-        startedAt
       }
     }
   }
@@ -275,24 +257,35 @@ export const deleteBookItem = /* GraphQL */ `
   ) {
     deleteBookItem(input: $input, condition: $condition) {
       id
-      price
       status
-      added_on
       rackID
       bookID
-      _version
-      _deleted
-      _lastChangedAt
       createdAt
       updatedAt
+      book {
+        id
+        title
+        subject
+        publisher
+        language
+        edition
+        copies_present
+        copies_issued
+        createdAt
+        updatedAt
+      }
+      rack {
+        id
+        name
+        createdAt
+        updatedAt
+      }
       Transactions {
         nextToken
-        startedAt
       }
     }
   }
 `;
-
 export const createRack = /* GraphQL */ `
   mutation CreateRack(
     $input: CreateRackInput!
@@ -300,17 +293,11 @@ export const createRack = /* GraphQL */ `
   ) {
     createRack(input: $input, condition: $condition) {
       id
-      number
-      location
-      recently_used
-      _version
-      _deleted
-      _lastChangedAt
+      name
       createdAt
       updatedAt
       BookItems {
         nextToken
-        startedAt
       }
     }
   }
@@ -322,17 +309,11 @@ export const updateRack = /* GraphQL */ `
   ) {
     updateRack(input: $input, condition: $condition) {
       id
-      number
-      location
-      recently_used
-      _version
-      _deleted
-      _lastChangedAt
+      name
       createdAt
       updatedAt
       BookItems {
         nextToken
-        startedAt
       }
     }
   }
@@ -344,22 +325,15 @@ export const deleteRack = /* GraphQL */ `
   ) {
     deleteRack(input: $input, condition: $condition) {
       id
-      number
-      location
-      recently_used
-      _version
-      _deleted
-      _lastChangedAt
+      name
       createdAt
       updatedAt
       BookItems {
         nextToken
-        startedAt
       }
     }
   }
 `;
-
 export const createAuthor = /* GraphQL */ `
   mutation CreateAuthor(
     $input: CreateAuthorInput!
@@ -368,15 +342,10 @@ export const createAuthor = /* GraphQL */ `
     createAuthor(input: $input, condition: $condition) {
       id
       name
-      description
-      _version
-      _deleted
-      _lastChangedAt
       createdAt
       updatedAt
       books {
         nextToken
-        startedAt
       }
     }
   }
@@ -389,15 +358,10 @@ export const updateAuthor = /* GraphQL */ `
     updateAuthor(input: $input, condition: $condition) {
       id
       name
-      description
-      _version
-      _deleted
-      _lastChangedAt
       createdAt
       updatedAt
       books {
         nextToken
-        startedAt
       }
     }
   }
@@ -410,20 +374,14 @@ export const deleteAuthor = /* GraphQL */ `
     deleteAuthor(input: $input, condition: $condition) {
       id
       name
-      description
-      _version
-      _deleted
-      _lastChangedAt
       createdAt
       updatedAt
       books {
         nextToken
-        startedAt
       }
     }
   }
 `;
-
 export const createBarcode = /* GraphQL */ `
   mutation CreateBarcode(
     $input: CreateBarcodeInput!
@@ -431,28 +389,15 @@ export const createBarcode = /* GraphQL */ `
   ) {
     createBarcode(input: $input, condition: $condition) {
       id
-      code
       status
-      created_at
-      _version
-      _deleted
-      _lastChangedAt
+      bookItemID
       createdAt
       updatedAt
-      Book {
+      bookItem {
         id
-        isbn
-        title
-        subject
-        publisher
-        language
-        edition
-        no_of_pages
-        copies_present
-        copies_issued
-        _version
-        _deleted
-        _lastChangedAt
+        status
+        rackID
+        bookID
         createdAt
         updatedAt
       }
@@ -466,28 +411,15 @@ export const updateBarcode = /* GraphQL */ `
   ) {
     updateBarcode(input: $input, condition: $condition) {
       id
-      code
       status
-      created_at
-      _version
-      _deleted
-      _lastChangedAt
+      bookItemID
       createdAt
       updatedAt
-      Book {
+      bookItem {
         id
-        isbn
-        title
-        subject
-        publisher
-        language
-        edition
-        no_of_pages
-        copies_present
-        copies_issued
-        _version
-        _deleted
-        _lastChangedAt
+        status
+        rackID
+        bookID
         createdAt
         updatedAt
       }
@@ -501,96 +433,21 @@ export const deleteBarcode = /* GraphQL */ `
   ) {
     deleteBarcode(input: $input, condition: $condition) {
       id
-      code
       status
-      created_at
-      _version
-      _deleted
-      _lastChangedAt
+      bookItemID
       createdAt
       updatedAt
-      Book {
+      bookItem {
         id
-        isbn
-        title
-        subject
-        publisher
-        language
-        edition
-        no_of_pages
-        copies_present
-        copies_issued
-        _version
-        _deleted
-        _lastChangedAt
+        status
+        rackID
+        bookID
         createdAt
         updatedAt
       }
     }
   }
 `;
-
-export const createCard = /* GraphQL */ `
-  mutation CreateCard(
-    $input: CreateCardInput!
-    $condition: ModelCardConditionInput
-  ) {
-    createCard(input: $input, condition: $condition) {
-      id
-      card_number
-      img_path
-      status
-      issued_on
-      username
-      _version
-      _deleted
-      _lastChangedAt
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const updateCard = /* GraphQL */ `
-  mutation UpdateCard(
-    $input: UpdateCardInput!
-    $condition: ModelCardConditionInput
-  ) {
-    updateCard(input: $input, condition: $condition) {
-      id
-      card_number
-      img_path
-      status
-      issued_on
-      username
-      _version
-      _deleted
-      _lastChangedAt
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const deleteCard = /* GraphQL */ `
-  mutation DeleteCard(
-    $input: DeleteCardInput!
-    $condition: ModelCardConditionInput
-  ) {
-    deleteCard(input: $input, condition: $condition) {
-      id
-      card_number
-      img_path
-      status
-      issued_on
-      username
-      _version
-      _deleted
-      _lastChangedAt
-      createdAt
-      updatedAt
-    }
-  }
-`;
-
 export const createTransaction = /* GraphQL */ `
   mutation CreateTransaction(
     $input: CreateTransactionInput!
@@ -598,16 +455,22 @@ export const createTransaction = /* GraphQL */ `
   ) {
     createTransaction(input: $input, condition: $condition) {
       id
-      issue_date
+      username
       due_date
+      fine
       status
       bookitemID
-      Username
-      _version
-      _deleted
-      _lastChangedAt
       createdAt
       updatedAt
+      book {
+        id
+        status
+        rackID
+        bookID
+        createdAt
+        updatedAt
+      }
+      owner
     }
   }
 `;
@@ -618,16 +481,22 @@ export const updateTransaction = /* GraphQL */ `
   ) {
     updateTransaction(input: $input, condition: $condition) {
       id
-      issue_date
+      username
       due_date
+      fine
       status
       bookitemID
-      Username
-      _version
-      _deleted
-      _lastChangedAt
       createdAt
       updatedAt
+      book {
+        id
+        status
+        rackID
+        bookID
+        createdAt
+        updatedAt
+      }
+      owner
     }
   }
 `;
@@ -638,20 +507,25 @@ export const deleteTransaction = /* GraphQL */ `
   ) {
     deleteTransaction(input: $input, condition: $condition) {
       id
-      issue_date
+      username
       due_date
+      fine
       status
       bookitemID
-      Username
-      _version
-      _deleted
-      _lastChangedAt
       createdAt
       updatedAt
+      book {
+        id
+        status
+        rackID
+        bookID
+        createdAt
+        updatedAt
+      }
+      owner
     }
   }
 `;
-
 export const createBookAuthor = /* GraphQL */ `
   mutation CreateBookAuthor(
     $input: CreateBookAuthorInput!
@@ -661,35 +535,23 @@ export const createBookAuthor = /* GraphQL */ `
       id
       bookID
       authorID
-      _version
-      _deleted
-      _lastChangedAt
       createdAt
       updatedAt
       book {
         id
-        isbn
         title
         subject
         publisher
         language
         edition
-        no_of_pages
         copies_present
         copies_issued
-        _version
-        _deleted
-        _lastChangedAt
         createdAt
         updatedAt
       }
       author {
         id
         name
-        description
-        _version
-        _deleted
-        _lastChangedAt
         createdAt
         updatedAt
       }
@@ -705,35 +567,23 @@ export const updateBookAuthor = /* GraphQL */ `
       id
       bookID
       authorID
-      _version
-      _deleted
-      _lastChangedAt
       createdAt
       updatedAt
       book {
         id
-        isbn
         title
         subject
         publisher
         language
         edition
-        no_of_pages
         copies_present
         copies_issued
-        _version
-        _deleted
-        _lastChangedAt
         createdAt
         updatedAt
       }
       author {
         id
         name
-        description
-        _version
-        _deleted
-        _lastChangedAt
         createdAt
         updatedAt
       }
@@ -749,35 +599,23 @@ export const deleteBookAuthor = /* GraphQL */ `
       id
       bookID
       authorID
-      _version
-      _deleted
-      _lastChangedAt
       createdAt
       updatedAt
       book {
         id
-        isbn
         title
         subject
         publisher
         language
         edition
-        no_of_pages
         copies_present
         copies_issued
-        _version
-        _deleted
-        _lastChangedAt
         createdAt
         updatedAt
       }
       author {
         id
         name
-        description
-        _version
-        _deleted
-        _lastChangedAt
         createdAt
         updatedAt
       }

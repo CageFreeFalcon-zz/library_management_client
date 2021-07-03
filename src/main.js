@@ -15,6 +15,7 @@ import "./scss/main.scss";
 import "./registerServiceWorker";
 
 Amplify.configure(aws_exports);
+// window.LOG_LEVEL = "DEBUG";
 
 Vue.use(VueSweetalert2);
 Vue.config.productionTip = false;

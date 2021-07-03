@@ -10,12 +10,16 @@
     {
       "type": "ProjectLayer",
       "resourceName": "qrCodeModule",
-      "version": 2
+      "env": "dev",
+      "version": "Always choose latest version",
+      "isLatestVersionSelected": true
     },
     {
       "type": "ProjectLayer",
       "resourceName": "s3ClientModule",
-      "version": 2
+      "env": "dev",
+      "version": "Always choose latest version",
+      "isLatestVersionSelected": true
     },
     {
       "type": "ExternalLayer",

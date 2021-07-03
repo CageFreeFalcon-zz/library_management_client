@@ -96,10 +96,10 @@
         "Runtime": "nodejs12.x",
         "Layers": [
           {
-            "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:layer:qrCodeModule-dev:2"
+            "Ref": "functionqrCodeModuleArn"
           },
           {
-            "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:layer:s3ClientModule-dev:2"
+            "Ref": "functions3ClientModuleArn"
           },
           "arn:aws:lambda:ap-south-1:460459130467:layer:node_canvas_layer:1",
           "arn:aws:lambda:ap-south-1:460459130467:layer:node_canvas_layer_libs:1"

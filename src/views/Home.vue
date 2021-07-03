@@ -67,49 +67,30 @@
         </v-row>
       </v-col>
     </v-row>
-    <v-snackbar
-      :timeout="-1"
-      :value="msg"
-      absolute
-      top
-      color="primary"
-      elevation="0"
-    >
-      <div class="d-flex justify-space-between align-center">
-        <p class="mb-0">{{ msg }}</p>
-        <v-btn icon text color="error" @click="msg = ''">
-          <v-icon>mdi-close</v-icon>
-        </v-btn>
-      </div>
-    </v-snackbar>
   </v-container>
 </template>
 
 <script>
-import logo from "@/assets/images/logo.svg";
-import home1 from "@/assets/images/home1.svg";
-import home2 from "@/assets/images/home2.svg";
-import home3 from "@/assets/images/home3.svg";
+import logo from "../assets/images/logo.svg";
+import home1 from "../assets/images/home1.svg";
+import home2 from "../assets/images/home2.svg";
+import home3 from "../assets/images/home3.svg";
 
 export default {
   name: "Home",
   data() {
     return {
       logo: logo,
-      loading: false,
       carouselItem: {
         home1,
         home2,
         home3,
       },
-      msg: "",
     };
   },
-  methods: {},
   mounted() {
     if (this.$route.query.msg) {
-      console.log(this.$route.query.msg);
-      this.msg = this.$route.query.msg;
+      this.$swal("Success", this.$route.query.msg, "success");
     }
   },
 };

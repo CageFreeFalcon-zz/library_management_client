@@ -1,41 +1,10 @@
 <template>
   <v-container>
     <v-row>
-      <v-col>
-        <div class="d-flex justify-center">
-          <div class="p-relative">
-            <v-avatar
-              width="200"
-              size="200"
-              @click="uploadimage"
-              class="elevation-4"
-            >
-              <v-img :src="dp" position="center" />
-              <div class="picture_bottom">
-                <v-icon color="white">mdi-camera</v-icon>
-              </div>
-            </v-avatar>
-            <v-file-input
-              v-model="userdata.dp"
-              hide-input
-              @change="imagechanged"
-              ref="dp"
-              class="d-none"
-            />
-            <v-btn
-              fab
-              dark
-              small
-              elevation="0"
-              color="error"
-              class="close_btn"
-              v-if="dp"
-              @click="clearimage"
-            >
-              <v-icon dark>mdi-close</v-icon>
-            </v-btn>
-          </div>
-        </div>
+      <v-col class="d-flex justify-center">
+        <v-avatar width="200" size="200" class="elevation-4">
+          <v-img :src="dp" position="center" />
+        </v-avatar>
       </v-col>
       <v-col cols="12">
         <h1>{{ userdata.name }}</h1>
@@ -46,22 +15,22 @@
         <h4>
           <v-icon left color="secondary">mdi-email</v-icon>
           {{ userdata.email }}
-          <v-icon v-if="userdata.email_verified" color="info"
-            >mdi-check-decagram</v-icon
-          >
-          <v-btn v-else color="success" rounded small @click="verify('email')"
-            >verify</v-btn
-          >
+          <v-icon v-if="userdata.email_verified" color="info">
+            mdi-check-decagram
+          </v-icon>
+          <v-btn v-else color="success" rounded small @click="verify('email')">
+            verify
+          </v-btn>
         </h4>
         <h4>
           <v-icon left color="secondary">mdi-phone</v-icon>
           {{ userdata.phone_number }}
-          <v-icon v-if="userdata.phone_number_verified" color="info"
-            >mdi-check-decagram</v-icon
-          >
-          <v-btn v-else color="success" rounded small @click="verify('phone')"
-            >verify</v-btn
-          >
+          <v-icon v-if="userdata.phone_number_verified" color="info">
+            mdi-check-decagram
+          </v-icon>
+          <v-btn v-else color="success" rounded small @click="verify('phone')">
+            verify
+          </v-btn>
         </h4>
         <h4>
           <v-icon left color="secondary">mdi-cake-variant</v-icon>
@@ -149,15 +118,6 @@ export default {
     };
   },
   methods: {
-    imagechanged(file) {
-      this.dp = URL.createObjectURL(file);
-    },
-    uploadimage() {
-      this.$refs["dp"].$refs["input"].click();
-    },
-    clearimage() {
-      this.dp = undefined;
-    },
     verify(field) {
       this.$swal("Verification", field + " under verification", "success");
     },
